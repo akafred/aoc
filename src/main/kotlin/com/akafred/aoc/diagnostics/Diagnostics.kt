@@ -1,4 +1,4 @@
-package com.akafred.aoc.power
+package com.akafred.aoc.diagnostics
 
 import java.math.BigInteger
 

@@ -3,7 +3,7 @@ package com.akafred.aoc
 import com.akafred.aoc.depth.*
 import com.akafred.aoc.position.calculatePosition
 import com.akafred.aoc.position.calculatePositionByAim
-import com.akafred.aoc.power.powerConsumption
+import com.akafred.aoc.diagnostics.powerConsumption
 import java.io.File
 
 class App {

@@ -1,14 +1,17 @@
-package com.akafred.aoc.power
+package com.akafred.aoc.diagnostics
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
 
-class PowerTest {
+class DiagnosticsTest {
 
     @Test
     fun `power consumption with epsilon gamma`() {
-        val diagnosticData = """
+        assertEquals(BigInteger.valueOf(198), powerConsumption(diagnosticData))
+    }
+
+    private val diagnosticData = """
             00100
             11110
             10110
@@ -22,8 +25,5 @@ class PowerTest {
             00010
             01010
         """.trimIndent()
-
-        assertEquals(BigInteger.valueOf(198), powerConsumption(diagnosticData))
-    }
 }
 

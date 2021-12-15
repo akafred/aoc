@@ -1,6 +1,7 @@
 package com.akafred.aoc
 
 import com.akafred.aoc.depth.*
+import com.akafred.aoc.diagnostics.calculateLifeSupportRating
 import com.akafred.aoc.position.calculatePosition
 import com.akafred.aoc.position.calculatePositionByAim
 import com.akafred.aoc.diagnostics.powerConsumption
@@ -25,6 +26,8 @@ fun main() {
     println("AoC 2-2 position by aim product: ${calculatePositionByAim(aoc2Input).product()}")
 
     println("AoC 3-1 power consumption: ${powerConsumption(aoc3Input)}")
+
+    println("AoC 3-2 life support rating: ${calculateLifeSupportRating(aoc3Input)}")
 }
 
 

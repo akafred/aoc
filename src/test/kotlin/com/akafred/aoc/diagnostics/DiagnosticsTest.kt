@@ -11,6 +11,11 @@ class DiagnosticsTest {
         assertEquals(BigInteger.valueOf(198), powerConsumption(diagnosticData))
     }
 
+    @Test
+    fun `calculate life support rating`() {
+        assertEquals(BigInteger.valueOf(230), calculateLifeSupportRating(diagnosticData))
+    }
+
     private val diagnosticData = """
             00100
             11110

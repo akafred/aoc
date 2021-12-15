@@ -25,7 +25,7 @@ fun main() {
 }
 
 
-val aoc1Input = readFile("aoc1.txt").lines().map(String::toInt)
-val aoc2Input = readFile("aoc2.txt")
+val aoc1Input = readFile("aoc1.dat").lines().map(String::toInt)
+val aoc2Input = readFile("aoc2.dat")
 
 private fun readFile(filename: String) = File(ClassLoader.getSystemResource(filename).file).readText()

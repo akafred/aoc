@@ -1,6 +1,7 @@
 package com.akafred.aoc.position
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class PositionTest {
@@ -8,7 +9,20 @@ class PositionTest {
     // AoC 2-1
     @Test
     fun `position calculator calculates position`() {
-        val plannedCourse = """
+        val position = calculatePosition(plannedCourse)
+
+        assertEquals(150, position.product())
+    }
+
+    // AoC 2-2
+    @Test
+    fun `calculate position with aim`() {
+        val position = calculatePositionByAim(plannedCourse)
+
+        assertEquals(900, position.product())
+    }
+
+    private val plannedCourse = """
             forward 5
             down 5
             forward 8
@@ -17,8 +31,4 @@ class PositionTest {
             forward 2
         """.trimIndent()
 
-        val position = calculatePosition(plannedCourse)
-
-        Assertions.assertEquals(150, position.product())
-    }
 }

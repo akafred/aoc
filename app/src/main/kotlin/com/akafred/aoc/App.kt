@@ -2,6 +2,7 @@ package com.akafred.aoc
 
 import com.akafred.aoc.depth.*
 import com.akafred.aoc.position.calculatePosition
+import com.akafred.aoc.position.calculatePositionByAim
 import java.io.File
 
 class App {
@@ -19,6 +20,8 @@ fun main() {
     println("AoC 1-2 sliding average depth increases: ${slidingAverageIncreases(aoc1Input)}")
 
     println("AoC 2-1 position product: ${calculatePosition(aoc2Input).product()}")
+
+    println("AoC 2-1 position product: ${calculatePositionByAim(aoc2Input).product()}")
 }
 
 

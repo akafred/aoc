@@ -13,13 +13,13 @@ class App {
 fun main() {
     println(App().greeting)
 
-    println("AoC 1-1 depth increases: ${increases(aoc1_1_input)}")
+    println("AoC 1-1 depth increases: ${increases(aoc1Input)}")
 
-    println("AoC 1-2 sliding average depth increases: ${slidingAverageIncreases(aoc1_1_input)}")
+    println("AoC 1-2 sliding average depth increases: ${slidingAverageIncreases(aoc1Input)}")
 
 }
 
 
-val aoc1_1_input = readFile("aoc1.txt").lines().map(String::toInt)
+val aoc1Input = readFile("aoc1.txt").lines().map(String::toInt)
 
 private fun readFile(filename: String) = File(ClassLoader.getSystemResource(filename).file).readText()

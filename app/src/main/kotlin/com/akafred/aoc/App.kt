@@ -1,6 +1,6 @@
 package com.akafred.aoc
 
-import com.akafred.aoc.depth.Depth
+import com.akafred.aoc.depth.*
 
 class App {
     val greeting: String
@@ -12,9 +12,9 @@ class App {
 fun main() {
     println(App().greeting)
 
-    println("AoC 1-1 depth increases: ${Depth.increases(aoc1_1_input)}")
+    println("AoC 1-1 depth increases: ${increases(aoc1_1_input)}")
 
-    println("AoC 1-2 sliding average depth increases: ${Depth.slidingAverageIncreases(aoc1_1_input)}")
+    println("AoC 1-2 sliding average depth increases: ${slidingAverageIncreases(aoc1_1_input)}")
 
 }
 
@@ -2020,4 +2020,4 @@ val aoc1_1_input = """
     3724
     3723
     3728
-""".trimIndent().split('\n').map(String::toInt)
+""".trimIndent().lines().map(String::toInt)

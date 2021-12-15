@@ -26,6 +26,6 @@ internal class DepthTest {
             269
             260
             263
-        """.trimIndent().split("\n").map { it.toInt() }
+        """.trimIndent().lines().map(String::toInt)
 
 }

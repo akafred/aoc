@@ -1,6 +1,6 @@
 package com.akafred.aoc.position
 
-data class Position(val forward: Int, val depth: Int) {
+data class Position(val forward: Int = 0, val depth: Int = 0) {
     fun next(cmd: Command): Position {
         return when (cmd.direction) {
             "forward" -> Position(this.forward + cmd.distance, this.depth)
@@ -20,4 +20,4 @@ fun calculatePosition(plannedCourse: String) =
         .lines()
         .map { it.split(" ") }
         .map { Command(it[0], it[1].toInt()) }
-        .fold(Position(0, 0)) { pos, cmd -> pos.next(cmd) }
+        .fold(Position()) { pos, cmd -> pos.next(cmd) }

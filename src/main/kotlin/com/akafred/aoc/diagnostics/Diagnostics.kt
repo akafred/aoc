@@ -1,6 +1,8 @@
 package com.akafred.aoc.diagnostics
 
 import java.math.BigInteger
+import java.math.BigInteger.ONE
+import java.math.BigInteger.ZERO
 
 fun powerConsumption(diagnosticData: String): BigInteger {
     val lines = diagnosticData.lines()
@@ -8,10 +10,10 @@ fun powerConsumption(diagnosticData: String): BigInteger {
     val data = lines.map { it.toBigInteger(2) }
 
     val counts = (1..bits)
-        .map { bit -> data.count { value -> (value and (BigInteger.ONE.shl(bits - bit))) > BigInteger.ZERO }}
+        .map { bit -> data.count { value -> (value and (ONE.shl(bits - bit))) > ZERO }}
 
     val gamma = counts
-        .mapIndexed { bit, count -> if (count * 2 >= lines.size) (BigInteger.ONE.shl(bits - bit - 1)) else BigInteger.ZERO }
+        .mapIndexed { bit, count -> if (count * 2 >= lines.size) (ONE.shl(bits - bit - 1)) else ZERO }
         .sumOf { it }
 
     val epsilon = gamma.inv() and BigInteger("1".repeat(bits), 2)

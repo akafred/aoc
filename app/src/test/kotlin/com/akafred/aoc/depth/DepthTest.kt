@@ -1,18 +1,18 @@
-package com.akafred.aoc
+package com.akafred.aoc.depth
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class DepthTest {
 
     @Test // AoC 1-1
     fun `count depth increases in normal case`() {
-        assertEquals(7, Depth.increases(depthMeasurements))
+        assertEquals(7, increases(depthMeasurements))
     }
 
     @Test
     fun `count sliding average depth increases`() {
-        assertEquals(5, Depth.slidingAverageIncreases(depthMeasurements))
+        assertEquals(5, slidingAverageIncreases(depthMeasurements))
     }
 
     private val depthMeasurements = """

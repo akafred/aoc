@@ -1,5 +1,7 @@
 package com.akafred.aoc
 
+import com.akafred.aoc.depth.Depth
+
 class App {
     val greeting: String
         get() {

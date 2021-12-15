@@ -21,7 +21,7 @@ fun main() {
 
     println("AoC 2-1 position product: ${calculatePosition(aoc2Input).product()}")
 
-    println("AoC 2-1 position product: ${calculatePositionByAim(aoc2Input).product()}")
+    println("AoC 2-2 position by aim product: ${calculatePositionByAim(aoc2Input).product()}")
 }
 
 

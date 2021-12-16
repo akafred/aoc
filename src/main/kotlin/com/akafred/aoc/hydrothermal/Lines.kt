@@ -1,9 +1,12 @@
 package com.akafred.aoc.hydrothermal
 
+import java.lang.Integer.max
+import java.lang.Integer.min
+
 typealias Point = Pair<Int,Int>
 typealias Line = Pair<Point, Point>
 
-fun overlappingPoints(input: String): Int {
+fun overlappingPoints(input: String, withDiagonal: Boolean = true): Int {
     val endpointPairs = input.lines().map { inputLine -> endpointPairs(inputLine) }
 
     val points = endpointPairs
@@ -11,7 +14,7 @@ fun overlappingPoints(input: String): Int {
             when {
                 isRow(start, end) -> rowPoints(start, end)
                 isCol(start, end) -> colPoints(start, end)
-                else -> emptyList()
+                else -> if (withDiagonal) diagonalPoints(start, end) else emptyList()
             }
         }
 
@@ -33,7 +36,16 @@ private fun endpointPairs(inputLine: String): Line {
 }
 
 private fun colPoints(start: Point, end: Point) =
-    (Integer.min(start.first, end.first)..Integer.max(start.first, end.first)).map { Point(it, start.second) }.toList()
+    (min(start.first, end.first)..max(start.first, end.first)).map { Point(it, start.second) }.toList()
 
 private fun rowPoints(start: Point, end: Point) =
-    (Integer.min(start.second, end.second)..Integer.max(start.second, end.second)).map { Point(start.first, it) }.toList()
+    (min(start.second, end.second)..max(start.second, end.second)).map { Point(start.first, it) }.toList()
+
+private fun diagonalPoints(start: Point, end: Point) =
+    (0 .. (max(start.first, end.first) - min(start.first, end.first)))
+        .map{ i ->
+            Point(
+                start.first + i * if (end.first > start.first) 1 else -1,
+                start.second + i * if (end.second > start.second) 1 else -1
+            )
+        }

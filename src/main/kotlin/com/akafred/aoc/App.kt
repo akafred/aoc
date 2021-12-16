@@ -10,7 +10,6 @@ import com.akafred.aoc.diagnostics.powerConsumption
 import com.akafred.aoc.hydrothermal.overlappingPoints
 import com.akafred.aoc.packets.calculate
 import com.akafred.aoc.packets.decodeAndSumVersions
-import com.akafred.aoc.packets.printIt
 import java.io.File
 
 class App {
@@ -39,7 +38,9 @@ fun main() {
 
     println("AoC 4-2 last bingo score: ${lastBingoScore(aoc4Input)}")
 
-    println("AoC 5-1 overlapping points: ${overlappingPoints(aoc5Input)}")
+    println("AoC 5-1 overlapping points: ${overlappingPoints(aoc5Input, false)}")
+
+    println("AoC 5-2 overlapping points with diagonal: ${overlappingPoints(aoc5Input)}")
 
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 

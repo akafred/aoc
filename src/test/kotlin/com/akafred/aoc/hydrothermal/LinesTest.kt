@@ -6,7 +6,15 @@ import org.junit.jupiter.api.Test
 class LinesTest {
     @Test
     fun `lines crossing`() {
-        val input = """
+        assertEquals(5, overlappingPoints(input, withDiagonal = false))
+    }
+
+    @Test
+    fun `lines crossing including diagonal`() {
+        assertEquals(12, overlappingPoints(input))
+    }
+
+    private val input = """
             0,9 -> 5,9
             8,0 -> 0,8
             9,4 -> 3,4
@@ -18,7 +26,4 @@ class LinesTest {
             0,0 -> 8,8
             5,5 -> 8,2
         """.trimIndent()
-
-        assertEquals(5, overlappingPoints(input))
-    }
 }

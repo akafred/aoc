@@ -7,7 +7,9 @@ import com.akafred.aoc.diagnostics.calculateLifeSupportRating
 import com.akafred.aoc.position.calculatePosition
 import com.akafred.aoc.position.calculatePositionByAim
 import com.akafred.aoc.diagnostics.powerConsumption
+import com.akafred.aoc.packets.calculate
 import com.akafred.aoc.packets.decodeAndSumVersions
+import com.akafred.aoc.packets.printIt
 import java.io.File
 
 class App {
@@ -37,6 +39,8 @@ fun main() {
     println("AoC 4-2 last bingo score: ${lastBingoScore(aoc4Input)}")
 
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
+
+    println("AoC 16-2 packet calculation: ${calculate(aoc16Input)}")
 }
 
 

@@ -1,13 +1,27 @@
 package com.akafred.aoc.packets
 
 import java.math.BigInteger
+import java.math.BigInteger.ONE
+import java.math.BigInteger.ZERO
 
 typealias Pos = Int
 
 fun decodeAndSumVersions(input: String): Int {
     val message = hexToBinary(input)
-    val (_, pkgs) = parsePackages(0, message, message.length)
-    return pkgs.sumOf(Pkg::versionSum)
+    val (_, pkg) = parsePackage(0, message)
+    return pkg.versionSum()
+}
+
+fun calculate(input: String): BigInteger {
+    val message = hexToBinary(input)
+    val (_, pkg) = parsePackage(0, message)
+    return pkg.eval()
+}
+
+fun printIt(input: String) {
+    val message = hexToBinary(input)
+    val (_, pkg) = parsePackage(0, message)
+    println(pkg.print())
 }
 
 private fun parsePackages(startPos: Int, message: String, maxBits: Int): Pair<Pos, List<Pkg>> {
@@ -36,14 +50,53 @@ private fun parseNPackages(startPos: Int, message: String, noPkgs: Int): Pair<Po
 
 abstract class Pkg(val version: Int, val typeId: Int) {
     abstract fun versionSum(): Int
+    abstract fun eval(): BigInteger
+    abstract fun print(): String
 }
 
 class LiteralPkg(version: Int, typeId: Int, val literal: BigInteger): Pkg(version, typeId) {
     override fun versionSum() = version
+    override fun eval(): BigInteger = literal
+    override fun print(): String = literal.toString()
 }
 
-class OperatorPkg(version: Int, typeId: Int, val pkgs: List<Pkg>) : Pkg(version, typeId) {
+abstract class OperatorPkg(version: Int, typeId: Int, val pkgs: List<Pkg>) : Pkg(version, typeId) {
     override fun versionSum(): Int = version + pkgs.sumOf(Pkg::versionSum)
+}
+
+class SumPackage(version: Int, typeId: Int, pkgs: List<Pkg>): OperatorPkg(version, typeId, pkgs) {
+    override fun eval() = pkgs.sumOf(Pkg::eval)
+    override fun print() = "(" + pkgs.joinToString("+", transform = Pkg::print) + ")"
+}
+
+class ProductPackage(version: Int, typeId: Int, pkgs: List<Pkg>): OperatorPkg(version, typeId, pkgs) {
+    override fun eval() = pkgs.fold(ONE) { acc, pkg -> acc.multiply(pkg.eval()) }
+    override fun print() = "(" + pkgs.joinToString("*", transform = Pkg::print) + ")"
+}
+
+class MinimumPackage(version: Int, typeId: Int, pkgs: List<Pkg>): OperatorPkg(version, typeId, pkgs) {
+    override fun eval() = pkgs.fold(BigInteger.valueOf(Long.MAX_VALUE)) { acc, pkg -> acc.min(pkg.eval()) }
+    override fun print() = "min(" + pkgs.joinToString(";", transform = Pkg::print) + ")"
+}
+
+class MaximumPackage(version: Int, typeId: Int, pkgs: List<Pkg>): OperatorPkg(version, typeId, pkgs) {
+    override fun eval() = pkgs.fold(ZERO) { acc, pkg -> acc.max(pkg.eval()) }
+    override fun print() = "max(" + pkgs.joinToString(";", transform = Pkg::print) + ")"
+}
+
+class GreaterThanPacket(version: Int, typeId: Int, pkgs: List<Pkg>): OperatorPkg(version, typeId, pkgs) {
+    override fun eval() = if (pkgs[0].eval() > pkgs[1].eval()) ONE else ZERO
+    override fun print() = "if(" + pkgs[0].print() + ">" + pkgs[1].print() +";1;0)"
+}
+
+class LessThanPacket(version: Int, typeId: Int, pkgs: List<Pkg>): OperatorPkg(version, typeId, pkgs) {
+    override fun eval() = if (pkgs[0].eval() < pkgs[1].eval()) ONE else ZERO
+    override fun print() = "if(" + pkgs[0].print() + "<" + pkgs[1].print() +";1;0)"
+}
+
+class EqualToPacket(version: Int, typeId: Int, pkgs: List<Pkg>): OperatorPkg(version, typeId, pkgs) {
+    override fun eval() = if (pkgs[0].eval() == pkgs[1].eval()) ONE else ZERO
+    override fun print() = "if(" + pkgs[0].print() + "=" + pkgs[1].print() +";1;0)"
 }
 
 private fun parsePackage(startPos: Pos, message: String): Pair<Pos,Pkg> {
@@ -69,7 +122,18 @@ private fun parseOperator(startPos: Pos, version: Int, typeId: Int, message: Str
             val subPkgPos = valuePos + 11
             parseNPackages(subPkgPos, message, noPkgs)
         }
-    return Pair(endPos, OperatorPkg(version, typeId, pkgs))
+    val pkg = when(typeId) {
+        0 -> SumPackage(version, typeId, pkgs)
+        1 -> ProductPackage(version, typeId, pkgs)
+        2 -> MinimumPackage(version, typeId, pkgs)
+        3 -> MaximumPackage(version, typeId, pkgs)
+        5 -> GreaterThanPacket(version, typeId, pkgs)
+        6 -> LessThanPacket(version, typeId, pkgs)
+        7 -> EqualToPacket(version, typeId, pkgs)
+        else -> throw UnsupportedOperationException("Package with typeId ${typeId} is unknown.")
+    }
+
+    return Pair(endPos, pkg)
 
 }
 

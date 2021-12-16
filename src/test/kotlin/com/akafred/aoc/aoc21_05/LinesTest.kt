@@ -1,4 +1,4 @@
-package com.akafred.aoc.hydrothermal
+package com.akafred.aoc.aoc21_05
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

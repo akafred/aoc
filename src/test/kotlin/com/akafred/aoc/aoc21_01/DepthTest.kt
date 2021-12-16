@@ -1,4 +1,4 @@
-package com.akafred.aoc.depth
+package com.akafred.aoc.aoc21_01
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

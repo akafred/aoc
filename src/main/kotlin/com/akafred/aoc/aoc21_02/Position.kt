@@ -1,4 +1,4 @@
-package com.akafred.aoc.position
+package com.akafred.aoc.aoc21_02
 
 data class Position(val forward: Int = 0, val depth: Int = 0) {
     fun next(cmd: Command): Position {

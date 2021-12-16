@@ -1,4 +1,4 @@
-package com.akafred.aoc.diagnostics
+package com.akafred.aoc.aoc21_03
 
 import java.math.BigInteger
 import java.math.BigInteger.ONE

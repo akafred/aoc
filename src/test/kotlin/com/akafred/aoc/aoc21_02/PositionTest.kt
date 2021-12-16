@@ -1,4 +1,4 @@
-package com.akafred.aoc.position
+package com.akafred.aoc.aoc21_02
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

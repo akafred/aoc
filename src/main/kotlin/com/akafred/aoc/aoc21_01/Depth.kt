@@ -1,4 +1,4 @@
-package com.akafred.aoc.depth
+package com.akafred.aoc.aoc21_01
 
 fun increases(values: List<Int>) = slidingAverageIncreases(values, 1)
 

@@ -1,4 +1,4 @@
-package com.akafred.aoc.bingo
+package com.akafred.aoc.aoc21_04
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

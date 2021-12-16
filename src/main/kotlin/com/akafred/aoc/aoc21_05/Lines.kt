@@ -1,4 +1,4 @@
-package com.akafred.aoc.hydrothermal
+package com.akafred.aoc.aoc21_05
 
 import java.lang.Integer.max
 import java.lang.Integer.min

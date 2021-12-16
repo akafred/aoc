@@ -1,4 +1,4 @@
-package com.akafred.aoc.bingo
+package com.akafred.aoc.aoc21_04
 
 typealias Board = List<List<Int>>
 typealias Ball = Int

@@ -1,15 +1,15 @@
 package com.akafred.aoc
 
-import com.akafred.aoc.bingo.bingoScore
-import com.akafred.aoc.bingo.lastBingoScore
-import com.akafred.aoc.depth.*
-import com.akafred.aoc.diagnostics.calculateLifeSupportRating
-import com.akafred.aoc.position.calculatePosition
-import com.akafred.aoc.position.calculatePositionByAim
-import com.akafred.aoc.diagnostics.powerConsumption
-import com.akafred.aoc.hydrothermal.overlappingPoints
-import com.akafred.aoc.packets.calculate
-import com.akafred.aoc.packets.decodeAndSumVersions
+import com.akafred.aoc.aoc21_01.*
+import com.akafred.aoc.aoc21_02.calculatePosition
+import com.akafred.aoc.aoc21_02.calculatePositionByAim
+import com.akafred.aoc.aoc21_03.powerConsumption
+import com.akafred.aoc.aoc21_03.calculateLifeSupportRating
+import com.akafred.aoc.aoc21_04.bingoScore
+import com.akafred.aoc.aoc21_04.lastBingoScore
+import com.akafred.aoc.aoc21_05.overlappingPoints
+import com.akafred.aoc.aoc21_16.calculate
+import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import java.io.File
 
 class App {

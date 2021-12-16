@@ -13,6 +13,7 @@ fun decodeAndSumVersions(input: String): Int {
 private fun parsePackages(startPos: Int, message: String, maxBits: Int): Pair<Pos, List<Pkg>> {
     var pos = startPos
     var pkgs = emptyList<Pkg>()
+
     while (pos < startPos + maxBits - 7) {
         val (newPos, pkg) = parsePackage(pos, message)
         pos = newPos
@@ -33,31 +34,30 @@ private fun parseNPackages(startPos: Int, message: String, noPkgs: Int): Pair<Po
     return Pair(pos, pkgs)
 }
 
-open class Pkg(val version: Int, val typeId: Int) {
-    open fun versionSum(): Int {
-        return version
-    }
+abstract class Pkg(val version: Int, val typeId: Int) {
+    abstract fun versionSum(): Int
 }
 
-class LiteralPkg(version: Int, typeId: Int, val literal: BigInteger): Pkg(version, typeId)
-
+class LiteralPkg(version: Int, typeId: Int, val literal: BigInteger): Pkg(version, typeId) {
+    override fun versionSum() = version
+}
 
 class OperatorPkg(version: Int, typeId: Int, val pkgs: List<Pkg>) : Pkg(version, typeId) {
     override fun versionSum(): Int = version + pkgs.sumOf(Pkg::versionSum)
 }
 
-private fun parsePackage(startPos: Int, message: String): Pair<Pos,Pkg> {
+private fun parsePackage(startPos: Pos, message: String): Pair<Pos,Pkg> {
     val (typeIdPos, version) = parseVersion(startPos, message)
     val (contentPos, typeId) = parseTypeId(typeIdPos, message)
     val (endPos, pkg) =
         when (typeId) {
             4 -> parseLiteral(contentPos, version, typeId, message)
-            else -> parseOperator(version, typeId, message, contentPos)
+            else -> parseOperator(contentPos, version, typeId, message)
         }
     return Pair(endPos, pkg)
 }
 
-private fun parseOperator(version: Int, typeId: Int, message: String, startPos: Pos): Pair<Pos, Pkg> {
+private fun parseOperator(startPos: Pos, version: Int, typeId: Int, message: String): Pair<Pos, Pkg> {
     val (valuePos, bitsControlled) = parseLengthControl(startPos, message)
     val (endPos, pkgs) =
         if (bitsControlled) {
@@ -73,9 +73,8 @@ private fun parseOperator(version: Int, typeId: Int, message: String, startPos: 
 
 }
 
-private fun parseLengthControl(startPos: Pos, message: String): Pair<Pos, Boolean> {
-    return Pair(startPos + 1, message.substring(startPos, startPos + 1) == "0")
-}
+private fun parseLengthControl(startPos: Pos, message: String) =
+    Pair(startPos + 1, message.substring(startPos, startPos + 1) == "0")
 
 private fun parseLiteral(startPos: Pos, version: Int, typeId: Int, message: String): Pair<Pos, Pkg> {
     var more = true
@@ -94,6 +93,5 @@ private fun parseVersion(pos: Int, message: String) = Pair(pos + 3, message.subs
 
 private fun parseTypeId(pos: Int, message: String) = Pair(pos + 3, message.substring(pos, pos + 3).toInt(2))
 
-fun hexToBinary(input: String): String {
-    return input.fold("") { acc, c -> acc + c.digitToInt(16).toString(2).padStart(4, '0')}
-}
+fun hexToBinary(input: String) =
+    input.fold("") { acc, c -> acc + c.digitToInt(16).toString(2).padStart(4, '0') }

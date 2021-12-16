@@ -1,6 +1,7 @@
 package com.akafred.aoc
 
 import com.akafred.aoc.bingo.bingoScore
+import com.akafred.aoc.bingo.lastBingoScore
 import com.akafred.aoc.depth.*
 import com.akafred.aoc.diagnostics.calculateLifeSupportRating
 import com.akafred.aoc.position.calculatePosition
@@ -31,6 +32,8 @@ fun main() {
     println("AoC 3-2 life support rating: ${calculateLifeSupportRating(aoc3Input)}")
 
     println("AoC 4-1 bingo score: ${bingoScore(aoc4Input)}")
+
+    println("AoC 4-2 last bingo score: ${lastBingoScore(aoc4Input)}")
 }
 
 

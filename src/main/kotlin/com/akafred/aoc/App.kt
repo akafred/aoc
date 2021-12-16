@@ -7,6 +7,7 @@ import com.akafred.aoc.diagnostics.calculateLifeSupportRating
 import com.akafred.aoc.position.calculatePosition
 import com.akafred.aoc.position.calculatePositionByAim
 import com.akafred.aoc.diagnostics.powerConsumption
+import com.akafred.aoc.packets.decodeAndSumVersions
 import java.io.File
 
 class App {
@@ -34,6 +35,8 @@ fun main() {
     println("AoC 4-1 bingo score: ${bingoScore(aoc4Input)}")
 
     println("AoC 4-2 last bingo score: ${lastBingoScore(aoc4Input)}")
+
+    println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 }
 
 
@@ -41,5 +44,6 @@ val aoc1Input = readFile("aoc1.dat").lines().map(String::toInt)
 val aoc2Input = readFile("aoc2.dat")
 val aoc3Input = readFile("aoc3.dat")
 val aoc4Input = readFile("aoc4.dat")
+val aoc16Input = readFile("aoc16.dat")
 
 private fun readFile(filename: String) = File(ClassLoader.getSystemResource(filename).file).readText()

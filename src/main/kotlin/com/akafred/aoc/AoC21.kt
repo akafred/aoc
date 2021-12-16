@@ -12,7 +12,7 @@ import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import java.io.File
 
-class App {
+class AoC21 {
     val greeting: String
         get() {
             return "Hello Advent of Code!"
@@ -20,7 +20,7 @@ class App {
 }
 
 fun main() {
-    println(App().greeting)
+    println(AoC21().greeting)
 
     println("AoC 1-1 depth increases: ${increases(aoc1Input)}")
 

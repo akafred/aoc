@@ -48,5 +48,5 @@ dependencyUpdates {
 }
 
 application {
-    mainClass = 'com.akafred.aoc.AppKt'
+    mainClass = 'com.akafred.aoc.AoC21Kt'
 }

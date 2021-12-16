@@ -9,6 +9,7 @@ import com.akafred.aoc.aoc21_04.bingoScore
 import com.akafred.aoc.aoc21_04.lastBingoScore
 import com.akafred.aoc.aoc21_05.overlappingPoints
 import com.akafred.aoc.aoc21_06.lanternfishCount
+import com.akafred.aoc.aoc21_07.minFuel
 import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import java.io.File
@@ -47,6 +48,8 @@ fun main() {
 
     println("AoC 6-2 lanternfish growth (256 days): ${lanternfishCount(aoc6Input, 256)}")
 
+    println("AoC 7-1 minimal fuel: ${minFuel(aoc7Input)}")
+
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 
     println("AoC 16-2 packet calculation: ${calculate(aoc16Input)}")
@@ -59,6 +62,7 @@ val aoc3Input = readFile("aoc3.dat")
 val aoc4Input = readFile("aoc4.dat")
 val aoc5Input = readFile("aoc5.dat")
 val aoc6Input = readFile("aoc6.dat")
+val aoc7Input = readFile("aoc7.dat")
 val aoc16Input = readFile("aoc16.dat")
 
 private fun readFile(filename: String) = File(ClassLoader.getSystemResource(filename).file).readText()

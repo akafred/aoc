@@ -10,6 +10,7 @@ import com.akafred.aoc.aoc21_04.lastBingoScore
 import com.akafred.aoc.aoc21_05.overlappingPoints
 import com.akafred.aoc.aoc21_06.lanternfishCount
 import com.akafred.aoc.aoc21_07.minFuel
+import com.akafred.aoc.aoc21_07.realMinFuel
 import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import java.io.File
@@ -49,6 +50,8 @@ fun main() {
     println("AoC 6-2 lanternfish growth (256 days): ${lanternfishCount(aoc6Input, 256)}")
 
     println("AoC 7-1 minimal fuel: ${minFuel(aoc7Input)}")
+
+    println("AoC 7-2 real minimal fuel: ${realMinFuel(aoc7Input)}")
 
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 

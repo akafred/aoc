@@ -13,6 +13,7 @@ import com.akafred.aoc.aoc21_07.minFuel
 import com.akafred.aoc.aoc21_07.realMinFuel
 import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
+import com.akafred.aoc.aoc21_17.trajectoryPeak
 import java.io.File
 
 class AoC21 {
@@ -56,6 +57,8 @@ fun main() {
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 
     println("AoC 16-2 packet calculation: ${calculate(aoc16Input)}")
+
+    println("AoC 17-1 max trajectory height: ${trajectoryPeak(aoc17Input)}")
 }
 
 
@@ -67,5 +70,6 @@ val aoc5Input = readFile("aoc5.dat")
 val aoc6Input = readFile("aoc6.dat")
 val aoc7Input = readFile("aoc7.dat")
 val aoc16Input = readFile("aoc16.dat")
+val aoc17Input = readFile("aoc17.dat")
 
 private fun readFile(filename: String) = File(ClassLoader.getSystemResource(filename).file).readText()

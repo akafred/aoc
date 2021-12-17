@@ -1,2 +1,4 @@
-*.bat           text eol=crlf
+*.bat                     text eol=crlf
+docs/aoc*.txt             filter=git-crypt diff=git-crypt
+src/main/resources/*.dat  filter=git-crypt diff=git-crypt
 

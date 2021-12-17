@@ -15,7 +15,8 @@ import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import com.akafred.aoc.aoc21_17.launchOptionsCount
 import com.akafred.aoc.aoc21_17.trajectoryPeak
-import com.akafred.aoc.aoc21_8.simpleDigitCount
+import com.akafred.aoc.aoc21_08.simpleDigitCount
+import com.akafred.aoc.aoc21_08.sumOfOutputs
 import java.io.File
 
 class AoC21 {
@@ -57,6 +58,8 @@ fun main() {
     println("AoC 7-2 real minimal fuel: ${realMinFuel(aoc7Input)}")
 
     println("AoC 8-1 simple digits count: ${simpleDigitCount(aoc8Input)}")
+
+    println("AoC 8-2 sum of outputs: ${sumOfOutputs(aoc8Input)}")
 
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 

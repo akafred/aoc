@@ -1,4 +1,4 @@
-package com.akafred.aoc.aoc21_8
+package com.akafred.aoc.aoc21_08
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -12,8 +12,22 @@ class SevenSegmentTest {
     }
 
     @Test
+    fun `sums outputs`() {
+        val input = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
+        assertEquals(5353, sumOfOutputs(input))
+    }
+
+    @Test
     fun `counts more digits`() {
-        val input = """
+        assertEquals(26, simpleDigitCount(input))
+    }
+
+    @Test
+    fun `sums more outputs`() {
+        assertEquals(61229, sumOfOutputs(input))
+    }
+
+    private val input = """
             be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
             edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc
             fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg
@@ -25,6 +39,4 @@ class SevenSegmentTest {
             egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb
             gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
         """.trimIndent()
-        assertEquals(26, simpleDigitCount(input))
-    }
 }

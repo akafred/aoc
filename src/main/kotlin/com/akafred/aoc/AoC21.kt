@@ -11,12 +11,13 @@ import com.akafred.aoc.aoc21_05.overlappingPoints
 import com.akafred.aoc.aoc21_06.lanternfishCount
 import com.akafred.aoc.aoc21_07.minFuel
 import com.akafred.aoc.aoc21_07.realMinFuel
+import com.akafred.aoc.aoc21_08.simpleDigitCount
+import com.akafred.aoc.aoc21_08.sumOfOutputs
+import com.akafred.aoc.aoc21_09.lowPointRiskLevel
 import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import com.akafred.aoc.aoc21_17.launchOptionsCount
 import com.akafred.aoc.aoc21_17.trajectoryPeak
-import com.akafred.aoc.aoc21_08.simpleDigitCount
-import com.akafred.aoc.aoc21_08.sumOfOutputs
 import java.io.File
 
 class AoC21 {
@@ -61,6 +62,8 @@ fun main() {
 
     println("AoC 8-2 sum of outputs: ${sumOfOutputs(aoc8Input)}")
 
+    println("AoC 9-1 lowPointRiskLevel: ${lowPointRiskLevel(aoc9Input)}")
+
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 
     println("AoC 16-2 packet calculation: ${calculate(aoc16Input)}")
@@ -79,6 +82,7 @@ val aoc5Input = readFile("aoc5.dat")
 val aoc6Input = readFile("aoc6.dat")
 val aoc7Input = readFile("aoc7.dat")
 val aoc8Input = readFile("aoc8.dat")
+val aoc9Input = readFile("aoc9.dat")
 val aoc16Input = readFile("aoc16.dat")
 val aoc17Input = readFile("aoc17.dat")
 

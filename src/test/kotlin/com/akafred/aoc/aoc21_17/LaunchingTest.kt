@@ -11,6 +11,12 @@ class LaunchingTest {
     }
 
     @Test
+    fun `calculates all valid trajectories`() {
+        val input = "target area: x=20..30, y=-10..-5"
+        assertEquals(112, launchOptionsCount(input))
+    }
+
+    @Test
     fun `finds target box`() {
         val input = "target area: x=20..30, y=-10..-5"
         assertEquals(Box(Point(20, -5), Point(30, -10)), targetArea(input))

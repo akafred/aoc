@@ -13,6 +13,7 @@ import com.akafred.aoc.aoc21_07.minFuel
 import com.akafred.aoc.aoc21_07.realMinFuel
 import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
+import com.akafred.aoc.aoc21_17.launchOptionsCount
 import com.akafred.aoc.aoc21_17.trajectoryPeak
 import java.io.File
 
@@ -59,6 +60,8 @@ fun main() {
     println("AoC 16-2 packet calculation: ${calculate(aoc16Input)}")
 
     println("AoC 17-1 max trajectory height: ${trajectoryPeak(aoc17Input)}")
+
+    println("AoC 17-2 valid trajectory count: ${launchOptionsCount(aoc17Input)}")
 }
 
 

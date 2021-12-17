@@ -11,22 +11,31 @@ val Box.start: Point get() = first
 val Box.end: Point get() = second
 
 fun trajectoryPeak(input: String): Int {
+    return validTrajectories(input).maxByOrNull { it.second }!!.second
+}
+
+fun launchOptionsCount(input: String): Int {
+    return validTrajectories(input).size
+}
+
+private fun validTrajectories(input: String): List<Pair<Pair<Int, Int>, Int>> {
     val target = targetArea(input)
     val vxmin = vxmin(target.start.x)
     val vxmax = target.end.x
-    var maxHeight = Int.MIN_VALUE
-    // var maxHeightVel: Pair<Int, Int>? = null
-    for (vx in (vxmin..vxmax)) {
-        for (vy in (0..1000)) {
+    val vymin = target.end.y
+    val vymax = 1000
+    return (vxmin..vxmax).flatMap { vx ->
+        (vymin..vymax).fold(emptyList()) { acc: List<Pair<Pair<Int, Int>, Int>>, vy ->
             val height = trajectoryMaxHeight(target, vx, vy)
-            if(height > maxHeight) {
-                maxHeight = height
-                // maxHeightVel = Pair(vx, vy)
+            if (height > Int.MIN_VALUE) {
+                val maxHeightVel = Pair(vx, vy)
+                acc + Pair(maxHeightVel, height)
                 // println(" ($vx,$vy) -> $height")
+            } else {
+                acc
             }
         }
     }
-    return maxHeight
 }
 
 fun trajectoryMaxHeight(target: Box, vx: Int, vy: Int): Int {

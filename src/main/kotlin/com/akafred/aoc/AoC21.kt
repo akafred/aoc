@@ -16,6 +16,7 @@ import com.akafred.aoc.aoc21_08.sumOfOutputs
 import com.akafred.aoc.aoc21_09.basinsProduct
 import com.akafred.aoc.aoc21_09.lowPointRiskLevel
 import com.akafred.aoc.aoc21_10.syntaxScore
+import com.akafred.aoc.aoc21_10.syntaxScore2
 import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import com.akafred.aoc.aoc21_17.launchOptionsCount
@@ -69,6 +70,8 @@ fun main() {
     println("AoC 9-2 basins product: ${basinsProduct(aoc9Input)}")
 
     println("AoC 10-1 syntax score : ${syntaxScore(aoc10Input)}")
+
+    println("AoC 10-2 syntax score 2 : ${syntaxScore2(aoc10Input)}")
 
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 

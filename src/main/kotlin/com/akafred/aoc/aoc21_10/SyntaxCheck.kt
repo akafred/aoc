@@ -1,8 +1,10 @@
 package com.akafred.aoc.aoc21_10
 
 import java.lang.RuntimeException
+import java.math.BigInteger.ZERO
 
 class ExpectationException(val expectedChar: Char, val foundChar: Char): Exception("Expected '$expectedChar' but found '$foundChar'} instead.") {}
+class UnexpectedEndingException(val missing: Stack<Char>): Exception("Unexpected end, missing $missing") {}
 
 fun syntaxScore(input: String): Int =
     input.lines()
@@ -24,6 +26,24 @@ fun syntaxScore(input: String): Int =
                 else -> throw IllegalArgumentException("Unexpected char found $foundChar")
             } }
         .sum()
+
+val score = mapOf('(' to 1, '[' to 2, '{' to 3, '<' to 4)
+
+fun syntaxScore2(input: String): Long =
+    input.lines()
+        .fold(mutableListOf<List<Char>>()) { acc, line ->
+            try {
+                parseLine(line)
+                throw RuntimeException("Expected exception")
+            } catch (e: ExpectationException) {
+                acc
+            } catch (e: UnexpectedEndingException) {
+                acc.add(e.missing.reversed().toMutableList());acc
+            }
+        }
+        .let { list ->
+            list.map { it.fold(0L) { acc, next -> acc * 5 + score[next]!! } }.sorted()[list.size / 2]
+        }
 
 
 typealias Stack<T> = MutableList<T>
@@ -47,5 +67,5 @@ fun parseLine(line: String): Int {
     if (stack.isEmpty()) {
         throw RuntimeException("Unexpected MEANINGFUL line.")
     }
-    throw IllegalStateException("Unexpected end of line")
+    throw UnexpectedEndingException(stack)
 }

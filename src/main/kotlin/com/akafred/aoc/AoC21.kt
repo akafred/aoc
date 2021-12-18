@@ -13,6 +13,7 @@ import com.akafred.aoc.aoc21_07.minFuel
 import com.akafred.aoc.aoc21_07.realMinFuel
 import com.akafred.aoc.aoc21_08.simpleDigitCount
 import com.akafred.aoc.aoc21_08.sumOfOutputs
+import com.akafred.aoc.aoc21_09.basinsProduct
 import com.akafred.aoc.aoc21_09.lowPointRiskLevel
 import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
@@ -62,7 +63,9 @@ fun main() {
 
     println("AoC 8-2 sum of outputs: ${sumOfOutputs(aoc8Input)}")
 
-    println("AoC 9-1 lowPointRiskLevel: ${lowPointRiskLevel(aoc9Input)}")
+    println("AoC 9-1 low points risk level: ${lowPointRiskLevel(aoc9Input)}")
+
+    println("AoC 9-2 basins product: ${basinsProduct(aoc9Input)}")
 
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 

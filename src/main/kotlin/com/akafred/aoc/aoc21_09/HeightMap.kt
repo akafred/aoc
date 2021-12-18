@@ -3,6 +3,7 @@ package com.akafred.aoc.aoc21_09
 typealias Matrix<A> = List<List<A>>
 typealias Cell = Pair<Int,Int>
 typealias Dim = Pair<Int,Int>
+typealias Basin = Set<Cell>
 
 val Cell.x: Int get() = this.first
 val Cell.y: Int get() = this.second
@@ -20,7 +21,34 @@ fun <A> Matrix<A>.neighbors(c: Cell): List<Cell> =
 
 
 fun lowPointRiskLevel(input: String): Int {
-    val heights = input.lines().map { inputLine -> inputLine.toCharArray().map { it.toString().toInt() } }
+    val heights = heights(input)
+    val lowPoints = lowPoints(heights)
+    return lowPoints.sumOf { 1 + heights.at(it) }
+}
+
+fun basinsProduct(input: String): Int {
+    val heights = heights(input)
+    val lowPoints = lowPoints(heights)
+    val basins = lowPoints.map { lowPoint -> traverse(heights, lowPoint) }
+    return basins.sortedByDescending { it.size }.take(3).fold(1) { acc, next -> acc * next.size }
+}
+
+private fun traverse(heights: Matrix<Int>, lowPoint: Cell): Basin {
+    var candidates = listOf(lowPoint)
+    val basin = mutableSetOf(lowPoint)
+    while(candidates.isNotEmpty()) {
+        val current = candidates[0]
+        basin += current
+        val neighbors = heights.neighbors(current).minus(basin).filter { heights.at(it) < 9 }
+        candidates = candidates.drop(1) + neighbors
+    }
+    return basin
+}
+
+private fun heights(input: String): Matrix<Int> =
+    input.lines().map { inputLine -> inputLine.toCharArray().map { it.toString().toInt() } }
+
+private fun lowPoints(heights: Matrix<Int>): List<Cell> {
     val lowPoints =
         heights.xs.flatMap { x ->
             heights.ys.flatMap { y ->
@@ -29,5 +57,5 @@ fun lowPointRiskLevel(input: String): Int {
                 if (lowPoint) listOf(current) else emptyList()
             }
         }
-    return lowPoints.sumOf { 1 + heights.at(it) }
+    return lowPoints
 }

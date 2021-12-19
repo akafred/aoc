@@ -21,6 +21,7 @@ import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import com.akafred.aoc.aoc21_17.launchOptionsCount
 import com.akafred.aoc.aoc21_17.trajectoryPeak
+import com.akafred.aoc.aoc21_18.magnitudeOfSum
 import java.io.File
 
 class AoC21 {
@@ -80,6 +81,8 @@ fun main() {
     println("AoC 17-1 max trajectory height: ${trajectoryPeak(aoc17Input)}")
 
     println("AoC 17-2 valid trajectory count: ${launchOptionsCount(aoc17Input)}")
+
+    println("AoC 18-1 snailfish number magnitude: ${magnitudeOfSum(aoc18Input)}")
 }
 
 
@@ -95,5 +98,6 @@ val aoc9Input = readFile("aoc9.dat")
 val aoc10Input = readFile("aoc10.dat")
 val aoc16Input = readFile("aoc16.dat")
 val aoc17Input = readFile("aoc17.dat")
+val aoc18Input = readFile("aoc18.dat")
 
 private fun readFile(filename: String) = File(ClassLoader.getSystemResource(filename).file).readText()

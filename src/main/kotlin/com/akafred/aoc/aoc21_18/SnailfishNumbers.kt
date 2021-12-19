@@ -1,6 +1,14 @@
 package com.akafred.aoc.aoc21_18
 
 
+fun maxMagnitude(input: String) =
+    input.lines().maxOf { a ->
+        input.lines().maxOf { b ->
+            if (a == b) Int.MIN_VALUE else magnitudeOfSum(a + "\n" + b )
+        }
+    }
+
+
 fun magnitudeOfSum(s: String) = magnitude(addAndReduce(s))
 
 fun magnitude(s: String): Int {

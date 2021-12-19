@@ -22,6 +22,7 @@ import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import com.akafred.aoc.aoc21_17.launchOptionsCount
 import com.akafred.aoc.aoc21_17.trajectoryPeak
 import com.akafred.aoc.aoc21_18.magnitudeOfSum
+import com.akafred.aoc.aoc21_18.maxMagnitude
 import java.io.File
 
 class AoC21 {
@@ -83,6 +84,8 @@ fun main() {
     println("AoC 17-2 valid trajectory count: ${launchOptionsCount(aoc17Input)}")
 
     println("AoC 18-1 snailfish number magnitude: ${magnitudeOfSum(aoc18Input)}")
+
+    println("AoC 18-2 max magnitude: ${maxMagnitude(aoc18Input)}")
 }
 
 

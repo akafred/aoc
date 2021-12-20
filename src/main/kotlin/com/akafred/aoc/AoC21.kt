@@ -17,6 +17,8 @@ import com.akafred.aoc.aoc21_09.basinsProduct
 import com.akafred.aoc.aoc21_09.lowPointRiskLevel
 import com.akafred.aoc.aoc21_10.syntaxScore
 import com.akafred.aoc.aoc21_10.syntaxScore2
+import com.akafred.aoc.aoc21_11.flashCount
+import com.akafred.aoc.aoc21_11.syncFlashSteps
 import com.akafred.aoc.aoc21_16.calculate
 import com.akafred.aoc.aoc21_16.decodeAndSumVersions
 import com.akafred.aoc.aoc21_17.launchOptionsCount
@@ -75,6 +77,10 @@ fun main() {
 
     println("AoC 10-2 syntax score 2 : ${syntaxScore2(aoc10Input)}")
 
+    println("AoC 11-1 flash count : ${flashCount(aoc11Input, 100)}")
+
+    println("AoC 11-1 sync flash steps : ${syncFlashSteps(aoc11Input)}")
+
     println("AoC 16-1 sum of packet versions: ${decodeAndSumVersions(aoc16Input)}")
 
     println("AoC 16-2 packet calculation: ${calculate(aoc16Input)}")
@@ -99,6 +105,7 @@ val aoc7Input = readFile("aoc7.dat")
 val aoc8Input = readFile("aoc8.dat")
 val aoc9Input = readFile("aoc9.dat")
 val aoc10Input = readFile("aoc10.dat")
+val aoc11Input = readFile("aoc11.dat")
 val aoc16Input = readFile("aoc16.dat")
 val aoc17Input = readFile("aoc17.dat")
 val aoc18Input = readFile("aoc18.dat")

@@ -26,6 +26,7 @@ import com.akafred.aoc.aoc21_17.launchOptionsCount
 import com.akafred.aoc.aoc21_17.trajectoryPeak
 import com.akafred.aoc.aoc21_18.magnitudeOfSum
 import com.akafred.aoc.aoc21_18.maxMagnitude
+import com.akafred.aoc.aoc21_22.cubeInitOnCount
 import java.io.File
 
 class AoC21 {
@@ -97,6 +98,11 @@ fun main() {
     println("AoC 18-1 snailfish number magnitude: ${magnitudeOfSum(aoc18Input)}")
 
     println("AoC 18-2 max magnitude: ${maxMagnitude(aoc18Input)}")
+
+    println("AoC 22-1 cube int on-count: ${cubeInitOnCount(aoc22Input)}")
+
+    println("AoC 22-2 cube int unlimited on-count: ${cubeInitOnCount(aoc22Input, limited = false)}")
+
 }
 
 
@@ -115,5 +121,6 @@ val aoc12Input = readFile("aoc12.dat")
 val aoc16Input = readFile("aoc16.dat")
 val aoc17Input = readFile("aoc17.dat")
 val aoc18Input = readFile("aoc18.dat")
+val aoc22Input = readFile("aoc22.dat")
 
 private fun readFile(filename: String) = File(ClassLoader.getSystemResource(filename).file).readText()

@@ -133,7 +133,6 @@ class AoC03Test {
 
     private fun readFile(filename: String): String {
         val resource = javaClass.getResource(filename)
-        println(resource)
         return File(resource!!.file).readText()
     }
 }

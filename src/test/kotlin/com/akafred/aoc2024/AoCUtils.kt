@@ -6,6 +6,5 @@ object Util {
     fun readFile(filename: String): String {
         val resource = javaClass.getResource(filename)
         return File(resource!!.file).readText()
-
     }
 }

@@ -5,16 +5,16 @@ import org.junit.jupiter.api.Test
 
 const val INPUT = "input01.txt"
 
-class AoC01Test {
+class AoC00Test {
 
-    val exampleInput =
+    private val exampleInput =
             ""
 
-    fun solve1(input: String): Int {
+    private fun solve1(input: String): Int {
         TODO("Not yet implemented")
     }
 
-    fun solve2(input: String): Int {
+    private fun solve2(input: String): Int {
         TODO("Not yet implemented")
     }
 

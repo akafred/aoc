@@ -1,12 +1,12 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
-    id 'application'
-    id 'com.github.ben-manes.versions' version '0.39.0'
-    id 'se.patrikerdes.use-latest-versions' version '0.2.18'
+    id "org.jetbrains.kotlin.jvm" version "1.6.10"
+    id "application"
+    id "com.github.ben-manes.versions" version "0.39.0"
+    id "se.patrikerdes.use-latest-versions" version "0.2.18"
     id "org.owasp.dependencycheck" version "6.5.0.1"
-    id 'com.adarshr.test-logger' version '3.1.0'
+    id "com.adarshr.test-logger" version "3.1.0"
     id "org.sonarqube" version "3.3"
-    id 'jacoco'
+    id "jacoco"
 }
 
 repositories {
@@ -14,14 +14,14 @@ repositories {
 }
 
 dependencies {
-    implementation platform('org.jetbrains.kotlin:kotlin-bom')
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    implementation 'com.google.guava:guava:31.0.1-jre'
+    implementation platform("org.jetbrains.kotlin:kotlin-bom")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "com.google.guava:guava:32.0.0-jre"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
 }
 
-tasks.named('test') {
+tasks.named("test") {
     useJUnitPlatform()
 }
 
@@ -41,12 +41,12 @@ tasks.sonarqube.dependsOn tasks["jacocoTestReport"]
 /* https://github.com/ben-manes/gradle-versions-plugin */
 dependencyUpdates {
     rejectVersionIf {
-        ['alpha', 'beta', 'rc', 'cr', 'm', 'preview', 'pr']
+        ["alpha", "beta", "rc", "cr", "m", "preview", "pr"]
                 .any { qualifier -> it.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/ }
     }
-    revision = 'release'
+    revision = "release"
 }
 
 application {
-    mainClass = 'com.akafred.aoc.AoC21Kt'
+    mainClass = "com.akafred.aoc.AoC21Kt"
 }

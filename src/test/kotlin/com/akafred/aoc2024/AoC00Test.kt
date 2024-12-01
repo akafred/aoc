@@ -3,7 +3,12 @@ package com.akafred.aoc2024
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-const val INPUT = "input01.txt"
+private const val INPUT = "input00.txt"
+
+private const val example1_answer = -1
+private const val puzzle1_answer = -1
+private const val example2_answer = -1
+private const val puzzle2_answer = -1
 
 class AoC00Test {
 
@@ -21,26 +26,26 @@ class AoC00Test {
     @Test
     fun `example 1`() {
         val result = solve1(exampleInput)
-        assertEquals(-1, result)
+        assertEquals(example1_answer, result)
     }
 
     @Test
     fun `puzzle 1`() {
         val input = Util.readFile(INPUT)
         val result = solve1(input)
-        assertEquals(-1, result)
+        assertEquals(puzzle1_answer, result)
     }
 
     @Test
     fun `example 2`() {
         val result = solve2(exampleInput)
-        assertEquals(-1, result)
+        assertEquals(example2_answer, result)
     }
 
     @Test
     fun `puzzle 2`() {
         val input = Util.readFile(INPUT)
         val result = solve2(input)
-        assertEquals(-1, result)
+        assertEquals(puzzle2_answer, result)
     }
 }

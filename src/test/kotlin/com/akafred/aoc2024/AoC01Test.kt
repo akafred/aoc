@@ -18,22 +18,22 @@ class AoC01Test {
 
     private fun solve1(input: String): Int {
         val lists = parse(input)
-        lists.first().sort()
-        lists.last().sort()
+        lists.first.sort()
+        lists.second.sort()
         var sum = 0
-        (0 until lists.first().size).forEach { i ->
-            sum += abs(lists.first()[i] - lists.last()[i])
+        (0 until lists.first.size).forEach { i ->
+            sum += abs(lists.first[i] - lists.second[i])
         }
         return sum
     }
 
-    private fun parse(input: String): List<MutableList<Int>> {
+    private fun parse(input: String): Pair<MutableList<Int>, MutableList<Int>> {
         val lists =
             input.lines()
-                .fold(listOf(mutableListOf<Int>(), mutableListOf<Int>())) { acc, line: String ->
+                .fold(Pair(mutableListOf<Int>(), mutableListOf<Int>())) { acc, line: String ->
                     val values = line.split(" ")
-                    acc.first().add(values.first().toInt())
-                    acc.last().add(values.last().toInt())
+                    acc.first.add(values.first().toInt())
+                    acc.second.add(values.last().toInt())
                     acc
                 }
         return lists
@@ -41,8 +41,8 @@ class AoC01Test {
 
     private fun solve2(input: String): Int {
         val lists = parse(input)
-        val countMap = lists.last().groupingBy { it }.eachCount()
-        val sumProduct = lists.first()
+        val countMap = lists.second.groupingBy { it }.eachCount()
+        val sumProduct = lists.first
             .sumOf {
                 it * countMap.getOrDefault(it, 0)
             }

@@ -36,10 +36,8 @@ class AoC01Test {
 
     private fun String.parseToLists(): Pair<List<Int>, List<Int>> =
         this.lines()
-            .fold(Pair(listOf(), listOf())) { lists, line: String ->
-                val values = line.split(" ")
-                Pair(lists.first + values.first().toInt(), lists.second + values.last().toInt())
-            }
+            .map { it.split("   ").map(String::toInt) }
+            .unzip()
 
     @Test
     fun `example 1`() {

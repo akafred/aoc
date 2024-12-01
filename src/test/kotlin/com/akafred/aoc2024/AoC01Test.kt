@@ -21,8 +21,14 @@ class AoC01Test {
                     "3   3"
 
     private fun solve1(input: String): Int {
-        val (first, second) = parseToLists(input).let { Pair(it.first.sorted(), it.second.sorted()) }
+        val (first, second) = parseToLists(input).let { (first, second) -> Pair(first.sorted(), second.sorted()) }
         return first.zip(second) { a, b -> abs(a - b) }.sum()
+    }
+
+    private fun solve2(input: String): Int {
+        val (first, second) = parseToLists(input)
+        val secondCount = second.groupingBy { it }.eachCount()
+        return first.sumOf { number -> number * secondCount.getOrDefault(number, 0) }
     }
 
     private fun parseToLists(input: String): Pair<List<Int>, List<Int>> =
@@ -31,12 +37,6 @@ class AoC01Test {
                 val values = line.split(" ")
                 Pair(acc.first + values.first().toInt(), acc.second + values.last().toInt())
             }
-
-    private fun solve2(input: String): Int {
-        val (first, second) = parseToLists(input)
-        val secondCount = second.groupingBy { it }.eachCount()
-        return first.sumOf { number -> number * secondCount.getOrDefault(number, 0) }
-    }
 
     @Test
     fun `example 1`() {

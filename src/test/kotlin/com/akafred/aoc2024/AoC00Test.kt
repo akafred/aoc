@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test
 
 private const val INPUT = "input00.txt"
 
-private const val example1_answer = -1
-private const val puzzle1_answer = -1
-private const val example2_answer = -1
-private const val puzzle2_answer = -1
-
 class AoC00Test {
+
+    private val example1Answer = -1
+    private val puzzle1Answer = -1
+    private val example2Answer = -1
+    private val puzzle2Answer = -1
 
     private val exampleInput =
             ""
@@ -26,26 +26,26 @@ class AoC00Test {
     @Test
     fun `example 1`() {
         val result = solve1(exampleInput)
-        assertEquals(example1_answer, result)
+        assertEquals(example1Answer, result)
     }
 
     @Test
     fun `puzzle 1`() {
         val input = Util.readFile(INPUT)
         val result = solve1(input)
-        assertEquals(puzzle1_answer, result)
+        assertEquals(puzzle1Answer, result)
     }
 
     @Test
     fun `example 2`() {
         val result = solve2(exampleInput)
-        assertEquals(example2_answer, result)
+        assertEquals(example2Answer, result)
     }
 
     @Test
     fun `puzzle 2`() {
         val input = Util.readFile(INPUT)
         val result = solve2(input)
-        assertEquals(puzzle2_answer, result)
+        assertEquals(puzzle2Answer, result)
     }
 }

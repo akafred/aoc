@@ -4,10 +4,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import kotlin.math.abs
 
-private const val INPUT = "input01.txt"
-
 class AoC01Test {
 
+    private val inputFile = "input01.txt"
     private val example1Answer = 11
     private val puzzle1Answer = 2970687
     private val example2Answer = 31
@@ -47,7 +46,7 @@ class AoC01Test {
 
     @Test
     fun `puzzle 1`() {
-        val input = Util.readFile(INPUT)
+        val input = Util.readFile(inputFile)
         val result = solve1(input)
         assertEquals(puzzle1Answer, result)
     }
@@ -60,7 +59,7 @@ class AoC01Test {
 
     @Test
     fun `puzzle 2`() {
-        val input = Util.readFile(INPUT)
+        val input = Util.readFile(inputFile)
         val result = solve2(input)
         assertEquals(puzzle2Answer, result)
     }

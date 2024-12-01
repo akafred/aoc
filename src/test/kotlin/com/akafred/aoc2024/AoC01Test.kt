@@ -18,23 +18,20 @@ class AoC01Test {
 
     private fun solve1(input: String): Int {
         val lists = parse(input)
-        lists.first.sort()
-        lists.second.sort()
+        val sortedLists = Pair(lists.first.sorted(), lists.second.sorted())
         var sum = 0
-        (0 until lists.first.size).forEach { i ->
-            sum += abs(lists.first[i] - lists.second[i])
+        (0 until sortedLists.first.size).forEach { i ->
+            sum += abs(sortedLists.first[i] - sortedLists.second[i])
         }
         return sum
     }
 
-    private fun parse(input: String): Pair<MutableList<Int>, MutableList<Int>> {
+    private fun parse(input: String): Pair<List<Int>, List<Int>> {
         val lists =
             input.lines()
-                .fold(Pair(mutableListOf<Int>(), mutableListOf<Int>())) { acc, line: String ->
+                .fold(Pair(listOf<Int>(), listOf<Int>())) { acc, line: String ->
                     val values = line.split(" ")
-                    acc.first.add(values.first().toInt())
-                    acc.second.add(values.last().toInt())
-                    acc
+                    Pair(acc.first + values.first().toInt(), acc.second + values.last().toInt())
                 }
         return lists
     }

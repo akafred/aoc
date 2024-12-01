@@ -20,22 +20,25 @@ class AoC01Test {
                     "3   9\n" +
                     "3   3"
 
-    private fun solve1(input: String): Int {
-        val (first, second) = parseToLists(input).let { (first, second) -> Pair(first.sorted(), second.sorted()) }
-        return first.zip(second) { a, b -> abs(a - b) }.sum()
-    }
+    private fun solve1(input: String): Int =
+        input.parseToLists()
+            .let { (first, second) -> Pair(first.sorted(), second.sorted()) }
+            .let { (first, second) -> first.zip(second) }
+            .sumOf { (a, b) -> abs(a - b) }
 
-    private fun solve2(input: String): Int {
-        val (first, second) = parseToLists(input)
-        val secondCount = second.groupingBy { it }.eachCount()
-        return first.sumOf { number -> number * secondCount.getOrDefault(number, 0) }
-    }
 
-    private fun parseToLists(input: String): Pair<List<Int>, List<Int>> =
-        input.lines()
-            .fold(Pair(listOf(), listOf())) { acc, line: String ->
+    private fun solve2(input: String): Int =
+        input.parseToLists()
+            .let { (first, second) ->
+                val secondCount = second.groupingBy { it }.eachCount()
+                first.sumOf { number -> number * secondCount.getOrDefault(number, 0) }
+            }
+
+    private fun String.parseToLists(): Pair<List<Int>, List<Int>> =
+        this.lines()
+            .fold(Pair(listOf(), listOf())) { lists, line: String ->
                 val values = line.split(" ")
-                Pair(acc.first + values.first().toInt(), acc.second + values.last().toInt())
+                Pair(lists.first + values.first().toInt(), lists.second + values.last().toInt())
             }
 
     @Test

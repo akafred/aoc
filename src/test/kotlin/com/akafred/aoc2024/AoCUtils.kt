@@ -8,3 +8,13 @@ object Util {
         return File(resource!!.file).readText()
     }
 }
+
+fun <A> List<List<A>>.unzip(): Pair<List<A>, List<A>> {
+    val listA = mutableListOf<A>()
+    val listB = mutableListOf<A>()
+    for ((a, b) in this) {
+        listA.add(a)
+        listB.add(b)
+    }
+    return Pair(listA, listB)
+}

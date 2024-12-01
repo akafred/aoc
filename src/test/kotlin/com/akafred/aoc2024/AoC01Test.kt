@@ -22,16 +22,16 @@ class AoC01Test {
 
     private fun solve1(input: String): Int =
         input.parseToLists()
-            .let { (first, second) -> Pair(first.sorted(), second.sorted()) }
-            .let { (first, second) -> first.zip(second) }
-            .sumOf { (a, b) -> abs(a - b) }
+            .let { (leftList, rightList) -> Pair(leftList.sorted(), rightList.sorted()) }
+            .let { (leftList, rightList) -> leftList.zip(rightList) }
+            .sumOf { (left, right) -> abs(left - right) }
 
 
     private fun solve2(input: String): Int =
         input.parseToLists()
-            .let { (first, second) ->
-                val secondCount = second.groupingBy { it }.eachCount()
-                first.sumOf { number -> number * secondCount.getOrDefault(number, 0) }
+            .let { (leftList, rightList) ->
+                val rightCount = rightList.groupingBy { it }.eachCount()
+                leftList.sumOf { it * rightCount.getOrDefault(it, 0) }
             }
 
     private fun String.parseToLists(): Pair<List<Int>, List<Int>> =

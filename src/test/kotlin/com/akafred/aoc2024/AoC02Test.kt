@@ -9,8 +9,8 @@ class AoC02Test {
     private val inputFile = "input02.txt"
     private val example1Answer = 2
     private val puzzle1Answer = 407
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 4
+    private val puzzle2Answer = 459
 
     private val exampleInput =
                     "7 6 4 2 1\n" +
@@ -25,35 +25,42 @@ class AoC02Test {
     private fun solve1(input: String): Int =
         input.lines()
             .map { line ->
-                val report = line.split(" ").map(String::toInt).toList()
+                val report = line.split(" ").map(String::toInt)
                 check(report)
             }
             .count{ it.safe == true }
 
     private fun solve2(input: String): Int =
-        TODO("Not yet implemented")
+        input.lines()
+            .map { line ->
+                val report = line.split(" ").map(String::toInt)
+                var result = check(report)
+                var removeIndex = 0
+                while(result.safe == false && removeIndex < report.size) {
+                    val reportWithOneDropped = report.toMutableList()
+                    reportWithOneDropped.removeAt(removeIndex)
+                    result = check(reportWithOneDropped)
+                    removeIndex++
+                }
+                result
+            }
+            .count{ it.safe == true }
 
     private fun check(report: List<Int>): State = report.fold(State(null, -1, null)) { state, n ->
         when {
             state.safe == null -> State(true, n, null)
             state.safe == false -> State(false, n, null)
-            state.safe == true && state.increasing == null && 1 <= abs(state.last - n) && abs(state.last - n) <= 3 -> State(
-                true,
-                n,
-                n > state.last
-            )
+            state.safe == true && state.increasing == null
+                    && 1 <= abs(state.last - n) && abs(state.last - n) <= 3
+                        -> State(true, n, n > state.last)
 
-            state.safe == true && state.increasing == true && 1 <= n - state.last && n - state.last <= 3 -> State(
-                true,
-                n,
-                true
-            )
+            state.safe == true && state.increasing == true
+                    && 1 <= n - state.last && n - state.last <= 3
+                        -> State(true, n, true)
 
-            state.safe == true && state.increasing == false && -3 <= n - state.last && n - state.last <= -1 -> State(
-                true,
-                n,
-                false
-            )
+            state.safe == true && state.increasing == false
+                    && -3 <= n - state.last && n - state.last <= -1
+                        -> State(true, n, false)
 
             else -> State(false, n, null)
         }

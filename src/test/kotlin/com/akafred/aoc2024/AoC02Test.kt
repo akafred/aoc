@@ -38,8 +38,7 @@ class AoC02Test {
                         }
                     }
                 }
-            .filter{ it.safe == true }
-            .count()
+            .count{ it.safe == true }
 
     private fun solve2(input: String): Int {
         TODO("Not yet implemented")

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import kotlin.math.abs
 
+typealias Report = List<Int>
+
 class AoC02Test {
 
     private val inputFile = "input02.txt"
@@ -20,49 +22,50 @@ class AoC02Test {
                     "8 6 4 4 1\n" +
                     "1 3 6 7 9"
 
-    data class State(val safe: Boolean?, val last: Int, val increasing: Boolean? )
+    sealed interface Result
+    data class Safe(val last: Int, val increasing: Boolean? ) : Result
+    class Unsafe() : Result
 
     private fun solve1(input: String): Int =
         input.lines()
-            .map { line ->
-                line.split(" ").map(String::toInt)
-                    .check()
-            }
-            .count{ it.safe == true }
+            .map { line -> line.split(" ").map(String::toInt) }
+            .count{ it.check() is Safe }
 
     private fun solve2(input: String): Int =
         input.lines()
             .map { line ->
-                val report = line.split(" ").map(String::toInt)
+                val report= line.split(" ").map(String::toInt)
+                print(report)
                 var result = report.check()
-                var removeIndex = 0
-                while(result.safe == false && removeIndex < report.size) {
-                    val reportWithOneDropped = report.toMutableList()
-                    reportWithOneDropped.removeAt(removeIndex)
+                println(result)
+                var indexToDrop = 0
+                while (indexToDrop < report.size && result is Unsafe) {
+                    val reportWithOneDropped =
+                        report.take(indexToDrop) + report.takeLast(report.size - indexToDrop - 1)
                     result = reportWithOneDropped.check()
-                    removeIndex++
+                    indexToDrop++
                 }
                 result
             }
-            .count{ it.safe == true }
+            .count{ it is Safe }
 
-    private fun List<Int>.check(): State =
-        fold(State(null, -1, null)) { state, n ->
+    private fun Report.check(): Result =
+        fold(null) { result: Result?, n: Int ->
             when {
-                state.safe == null -> State(true, n, null)
-                state.safe == false -> State(false, n, null)
-                state.safe == true && state.increasing == null
-                        && 1 <= abs(state.last - n) && abs(state.last - n) <= 3
-                            -> State(true, n, n > state.last)
-                state.safe == true && state.increasing == true
-                        && 1 <= n - state.last && n - state.last <= 3
-                            -> State(true, n, true)
-                state.safe == true && state.increasing == false
-                        && -3 <= n - state.last && n - state.last <= -1
-                            -> State(true, n, false)
-                else -> State(false, n, null)
+                result is Unsafe -> Unsafe()
+                result == null -> Safe(n, null)
+                result is Safe && result.increasing == null
+                        && 1 <= abs(result.last - n) && abs(result.last - n) <= 3
+                            -> Safe(n, n > result.last)
+                result is Safe && result.increasing == true
+                        && 1 <= n - result.last && n - result.last <= 3
+                            -> Safe(n, true)
+                result is Safe && result.increasing == false
+                        && -3 <= n - result.last && n - result.last <= -1
+                            -> Safe(n, false)
+                else -> Unsafe()
             }
-        }
+        }!!
 
     @Test
     fun `example 1`() {
@@ -90,3 +93,4 @@ class AoC02Test {
         assertEquals(puzzle2Answer, result)
     }
 }
+

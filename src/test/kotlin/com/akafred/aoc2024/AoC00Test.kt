@@ -11,8 +11,10 @@ class AoC00Test {
     private val example2Answer = -1
     private val puzzle2Answer = -1
 
-    private val exampleInput =
+    private val exampleInput1 =
             ""
+
+    private val exampleInput2 = exampleInput1
 
     private fun solve1(input: String): Int {
         TODO("Not yet implemented")
@@ -24,7 +26,7 @@ class AoC00Test {
 
     @Test
     fun `example 1`() {
-        val result = solve1(exampleInput)
+        val result = solve1(exampleInput1)
         assertEquals(example1Answer, result)
     }
 
@@ -37,7 +39,7 @@ class AoC00Test {
 
     @Test
     fun `example 2`() {
-        val result = solve2(exampleInput)
+        val result = solve2(exampleInput2)
         assertEquals(example2Answer, result)
     }
 

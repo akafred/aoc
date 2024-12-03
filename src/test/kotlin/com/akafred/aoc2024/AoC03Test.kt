@@ -8,26 +8,47 @@ class AoC03Test {
 
     private val inputFile = "input03.txt"
     private val example1Answer = 161
-    private val puzzle1Answer = -1
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val puzzle1Answer = 173529487
+    private val example2Answer = 48
+    private val puzzle2Answer = 99532691
 
     private val exampleInput =
             "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))\n"
 
+    private val exampleInput2 =
+        "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
+
     private val mulRegex = """mul\(\d{1,3},\d{1,3}\)""".toRegex(MULTILINE)
+    private val doMulRegex = """mul\(\d{1,3},\d{1,3}\)|do\(\)|don't\(\)""".toRegex(MULTILINE)
+
     private val factorRegex = """mul\((\d{1,3}),(\d{1,3})\)""".toRegex()
 
     private fun solve1(input: String): Int =
         mulRegex
-            .findAll(input).toList()
+            .findAll(input)
             .map { result -> result.value }
             .map { val (x1, x2) = factorRegex.find(it)!!.destructured; Pair(x1,x2) }
             .sumOf { it.first.toInt() * it.second.toInt() }
 
-    private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
-    }
+    private fun solve2(input: String): Int =
+        doMulRegex
+            .findAll(input)
+            .map { result -> result.value }
+            .fold(Pair(0, true)) { (acc: Int, enabled: Boolean), match: String ->
+                when {
+                    match == "do()" -> Pair(acc, true)
+                    match == "don't()" -> Pair(acc, false)
+                    else -> {
+                        if (enabled) {
+                            val (x1, x2) = factorRegex.find(match)!!.destructured
+                            Pair(acc + x1.toInt() * x2.toInt(), enabled)
+                        } else {
+                            Pair(acc, enabled)
+                        }
+                    }
+                }
+            }.first
+
 
     @Test
     fun `example 1`() {
@@ -44,7 +65,7 @@ class AoC03Test {
 
     @Test
     fun `example 2`() {
-        val result = solve2(exampleInput)
+        val result = solve2(exampleInput2)
         assertEquals(example2Answer, result)
     }
 

@@ -13,7 +13,7 @@ class AoC03Test {
     private val puzzle2Answer = 99532691
 
     private val exampleInput =
-            "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))\n"
+        "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))\n"
 
     private val exampleInput2 =
         "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
@@ -27,23 +27,23 @@ class AoC03Test {
         mulRegex
             .findAll(input)
             .map { result -> result.value }
-            .map { val (x1, x2) = factorRegex.find(it)!!.destructured; Pair(x1,x2) }
-            .sumOf { it.first.toInt() * it.second.toInt() }
+            .map { val (x1, x2) = factorRegex.find(it)!!.destructured; Pair(x1.toInt(),x2.toInt()) }
+            .sumOf { it.first * it.second }
 
     private fun solve2(input: String): Int =
         doMulRegex
             .findAll(input)
             .map { result -> result.value }
-            .fold(Pair(0, true)) { (acc: Int, enabled: Boolean), match: String ->
+            .fold(Pair(0, true)) { (sum: Int, enabled: Boolean), match: String ->
                 when {
-                    match == "do()" -> Pair(acc, true)
-                    match == "don't()" -> Pair(acc, false)
+                    match == "do()" -> Pair(sum, true)
+                    match == "don't()" -> Pair(sum, false)
                     else -> {
                         if (enabled) {
                             val (x1, x2) = factorRegex.find(match)!!.destructured
-                            Pair(acc + x1.toInt() * x2.toInt(), enabled)
+                            Pair(sum + x1.toInt() * x2.toInt(), enabled)
                         } else {
-                            Pair(acc, enabled)
+                            Pair(sum, enabled)
                         }
                     }
                 }

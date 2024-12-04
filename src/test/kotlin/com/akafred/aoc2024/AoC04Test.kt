@@ -8,8 +8,8 @@ class AoC04Test {
     private val inputFile = "input04.txt"
     private val example1Answer = 18
     private val puzzle1Answer = 2551
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 9
+    private val puzzle2Answer = 1985
 
     private val exampleInput1 =
             "MMMSXXMASM\n" +
@@ -53,7 +53,44 @@ class AoC04Test {
     }
 
     private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+        val board:List<String> = input.lines()
+        val height = board.size
+        val width = board[0].length
+        var count = 0
+        board.forEachIndexed { row, line ->
+            line.forEachIndexed { col, ch ->
+                if (col in 1 .. width - 2 && row in 1 .. height - 2) {
+                    if (ch == 'A') {
+                        if (
+                            (
+                                board[row - 1][col - 1] == 'M'
+                                && board[row - 1][col + 1] == 'M'
+                                && board[row + 1][col + 1] == 'S'
+                                && board[row + 1][col - 1] == 'S'
+                            ) || (
+                                board[row - 1][col + 1] == 'M'
+                                && board[row + 1][col + 1] == 'M'
+                                && board[row + 1][col - 1] == 'S'
+                                && board[row - 1][col - 1] == 'S'
+                            ) || (
+                                board[row + 1][col + 1] == 'M'
+                                && board[row + 1][col - 1] == 'M'
+                                && board[row - 1][col - 1] == 'S'
+                                && board[row - 1][col + 1] == 'S'
+                            )|| (
+                                board[row + 1][col - 1] == 'M'
+                                && board[row - 1][col - 1] == 'M'
+                                && board[row - 1][col + 1] == 'S'
+                                && board[row + 1][col + 1] == 'S'
+                            )
+                        ) {
+                            count++
+                        }
+                    }
+                }
+            }
+        }
+        return count
     }
 
     @Test

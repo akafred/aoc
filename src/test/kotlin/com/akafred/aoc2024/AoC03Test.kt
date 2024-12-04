@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import kotlin.text.RegexOption.MULTILINE
 
+private const val ENABLED = 1
+private const val DISABLED = 0
+
 class AoC03Test {
 
     private val inputFile = "input03.txt"
@@ -34,17 +37,13 @@ class AoC03Test {
         doMulRegex
             .findAll(input)
             .map { result -> result.value }
-            .fold(Pair(0, true)) { (sum: Int, enabled: Boolean), match: String ->
+            .fold(Pair(0, ENABLED)) { (sum: Int, enabled: Int), match: String ->
                 when {
-                    match == "do()" -> Pair(sum, true)
-                    match == "don't()" -> Pair(sum, false)
+                    match == "do()" -> Pair(sum, ENABLED)
+                    match == "don't()" -> Pair(sum, DISABLED)
                     else -> {
-                        if (enabled) {
-                            val (x1, x2) = factorRegex.find(match)!!.destructured
-                            Pair(sum + x1.toInt() * x2.toInt(), enabled)
-                        } else {
-                            Pair(sum, enabled)
-                        }
+                        val (x1, x2) = factorRegex.find(match)!!.destructured
+                        Pair(sum + x1.toInt() * x2.toInt() * enabled, enabled)
                     }
                 }
             }.first

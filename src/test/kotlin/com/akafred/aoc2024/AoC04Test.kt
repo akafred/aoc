@@ -2,6 +2,7 @@ package com.akafred.aoc2024
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.text.get
 
 class AoC04Test {
 

@@ -14,8 +14,8 @@ class AoC05Test {
     private val inputFile = "input05.txt"
     private val example1Answer = 143
     private val puzzle1Answer = 5955
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 123
+    private val puzzle2Answer = 4030
 
     private val exampleInput1 = """
             47|53
@@ -60,18 +60,16 @@ class AoC05Test {
                 .fold(mapOf<Page, Set<Page>>()) { acc, pair ->
                     acc + (pair.second to acc.getOrDefault(pair.second, setOf<Page>()) + pair.first)
                 }
-
         val prints: Prints =
             lines
                 .dropWhile { it.isNotEmpty() }
                 .drop(1)
                 .map { line -> line.split(",") }
-
         return Pair(mustNotBeAfterRules, prints)
     }
 
-    private fun legal(print: Print, mustNotBeAfterRules: Map<Page, Set<Page>>): Boolean {
-        return print.fold(Pair(true, setOf<Page>())) { (legal, illegalPages), page ->
+    private fun legal(print: Print, mustNotBeAfterRules: Map<Page, Set<Page>>): Boolean =
+        print.fold(Pair(true, setOf<Page>())) { (legal, illegalPages), page ->
             when(legal) {
                 false -> Pair(false, illegalPages)
                 true -> {
@@ -80,7 +78,6 @@ class AoC05Test {
                 }
             }
         }.first
-    }
 
     private fun solve1(input: String): Int {
         val (mustNotBeAfterRules, prints) = parse(input)
@@ -90,7 +87,18 @@ class AoC05Test {
     }
 
     private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+        val (mustNotBeAfterRules, prints) = parse(input)
+        val pageComparator = Comparator<Page> { p1, p2 ->
+            if (p1 in mustNotBeAfterRules.keys) {
+                if (p2 in mustNotBeAfterRules[p1]!!) -1 else 0
+            } else if (p2 in mustNotBeAfterRules.keys) {
+                if (p1 in mustNotBeAfterRules[p2]!!) 1 else 0
+            } else 0
+        }
+        return prints
+            .filter { !legal(it, mustNotBeAfterRules) }
+            .map { it.sortedWith(pageComparator) }
+            .sumOf { pages -> pages[pages.size / 2].toInt() }
     }
 
     @Test

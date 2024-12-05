@@ -13,7 +13,7 @@ class AoC05Test {
 
     private val inputFile = "input05.txt"
     private val example1Answer = 143
-    private val puzzle1Answer = -1
+    private val puzzle1Answer = 5955
     private val example2Answer = -1
     private val puzzle2Answer = -1
 
@@ -69,14 +69,12 @@ class AoC05Test {
 
         return prints.filter { print ->
             print.fold(Pair(true, setOf<Page>())) { (legal, illegalPages), page ->
-                when {
-                    !legal -> Pair(false, illegalPages)
-                    legal -> {
+                when(legal) {
+                    false -> Pair(false, illegalPages)
+                    true -> {
                         val newPageSet = illegalPages + mustNotBeAfterRules.getOrDefault(page, emptySet<Page>())
                         Pair(page !in newPageSet, newPageSet)
                     }
-
-                    else -> Pair(false, illegalPages)
                 }
             }.first
         }.sumOf { pages -> pages[pages.size / 2].toInt() }

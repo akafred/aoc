@@ -2,11 +2,11 @@ package com.akafred.aoc2024
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.collections.mapOf
 
 typealias Page = String
-typealias Pages = List<Page>
 typealias Print = List<Page>
-typealias Prints = List<List<Page>>
+typealias Prints = List<Print>
 
 
 class AoC05Test {
@@ -50,7 +50,7 @@ class AoC05Test {
 
     private val exampleInput2 = exampleInput1
 
-    private fun solve1(input: String): Int {
+    private fun parse(input: String): Pair<Map<Page, Set<Page>>, Prints> {
         val lines = input.lines()
         val mustNotBeAfterRules =
             lines
@@ -67,16 +67,25 @@ class AoC05Test {
                 .drop(1)
                 .map { line -> line.split(",") }
 
-        return prints.filter { print ->
-            print.fold(Pair(true, setOf<Page>())) { (legal, illegalPages), page ->
-                when(legal) {
-                    false -> Pair(false, illegalPages)
-                    true -> {
-                        val newPageSet = illegalPages + mustNotBeAfterRules.getOrDefault(page, emptySet<Page>())
-                        Pair(page !in newPageSet, newPageSet)
-                    }
+        return Pair(mustNotBeAfterRules, prints)
+    }
+
+    private fun legal(print: Print, mustNotBeAfterRules: Map<Page, Set<Page>>): Boolean {
+        return print.fold(Pair(true, setOf<Page>())) { (legal, illegalPages), page ->
+            when(legal) {
+                false -> Pair(false, illegalPages)
+                true -> {
+                    val newPageSet = illegalPages + mustNotBeAfterRules.getOrDefault(page, emptySet<Page>())
+                    Pair(page !in newPageSet, newPageSet)
                 }
-            }.first
+            }
+        }.first
+    }
+
+    private fun solve1(input: String): Int {
+        val (mustNotBeAfterRules, prints) = parse(input)
+        return prints.filter { print ->
+            legal(print, mustNotBeAfterRules)
         }.sumOf { pages -> pages[pages.size / 2].toInt() }
     }
 

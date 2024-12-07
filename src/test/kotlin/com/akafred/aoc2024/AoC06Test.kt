@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 typealias Row = String
-typealias Vec = Pair<Int, Int>
 typealias Board = List<Row>
+typealias Vec = Pair<Int, Int>
 typealias Pos = Pair<Int,Int>
 typealias Direction = Vec
 typealias Directions = List<Vec>

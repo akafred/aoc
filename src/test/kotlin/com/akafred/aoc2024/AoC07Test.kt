@@ -3,11 +3,15 @@ package com.akafred.aoc2024
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
+import java.math.BigInteger.ONE
+import java.math.BigInteger.ZERO
 
 typealias No = BigInteger
 typealias Equation = Pair<No, List<No>>
-enum class Operator(val repr: Char, val operation: (No, No) -> No) {
-    Add('+', No::plus), Mul('*', No::times)
+enum class Operator(val repr: String, val operation: (No, No) -> No) {
+    Add("+", No::plus),
+    Mul("*", No::times),
+    Concat("||",  { a, b -> (a.toString() + b.toString()).toBigInteger() })
 }
 
 
@@ -16,8 +20,8 @@ class AoC07Test {
     private val inputFile = "input07.txt"
     private val example1Answer = 3749.toBigInteger()
     private val puzzle1Answer = 6392012777720.toBigInteger()
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 11387.toBigInteger()
+    private val puzzle2Answer = "61561126043536".toBigInteger()
 
     private val exampleInput1 =
                 """
@@ -64,9 +68,42 @@ class AoC07Test {
         return false
     }
 
-    private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+
+    private fun Equation.solutionsThreeOps(): Boolean {
+        val (solution, numbers) = this
+        var i = ZERO
+        while (i < powerOfThree(numbers.size - 1)) {
+            val result = this.using(i.threeOperators())
+            if(result == solution) return true
+            i += ONE
+        }
+        return false
     }
+
+    private fun BigInteger.threeOperators(): (Int) -> Operator {
+        return { position ->
+            when(getNthTrit(this, position)) {
+                0 -> Operator.Add
+                1 -> Operator.Mul
+                2 -> Operator.Concat
+                else -> throw IllegalArgumentException()
+            }
+        }
+    }
+
+    fun getNthTrit(number: BigInteger, n: Int): Int {
+        val base = BigInteger.valueOf(3)
+        return number.divide(base.pow(n)).mod(base).toInt()
+    }
+
+    fun powerOfThree(n: Int): BigInteger {
+        return BigInteger("3").pow(n)
+    }
+
+    private fun solve2(input: String) =
+        input.parse()
+            .filter { equation -> equation.solutionsThreeOps() }
+            .sumOf { equation -> equation.first }
 
     @Test
     fun `example 1`() {
@@ -94,4 +131,5 @@ class AoC07Test {
         assertEquals(puzzle2Answer, result)
     }
 }
+
 

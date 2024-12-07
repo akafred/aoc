@@ -17,6 +17,7 @@ enum class Operator(val repr: String, val operation: (No, No) -> No) {
 
 class AoC07Test {
 
+    private var calls = 0
     private val inputFile = "input07.txt"
     private val example1Answer = 3749.toBigInteger()
     private val puzzle1Answer = 6392012777720.toBigInteger()
@@ -38,9 +39,14 @@ class AoC07Test {
     private val exampleInput2 = exampleInput1
 
     private fun solve1(input: String) =
-        input.parse()
+        input.also { calls = 0 }
+            .parse()
+            .also { pairs -> println("Total Lines: " + pairs.size) }
             .filter { equation -> equation.solutions() }
+            .also { pairs -> println("Lines with solutions: " + pairs.size) }
+            .also { println("Checked candidates: " + calls) }
             .sumOf { equation -> equation.first }
+
 
     private fun String.parse(): List<Equation> = lines().map { line ->
         val parts = line.split(":")
@@ -54,6 +60,7 @@ class AoC07Test {
     }
 
     private fun Equation.using(operators: (Int) -> Operator): BigInteger {
+        calls += 1
         return this.second.reduceIndexed { index, acc, i ->
             operators(index - 1).operation.invoke(acc, i)
         }
@@ -101,8 +108,12 @@ class AoC07Test {
     }
 
     private fun solve2(input: String) =
-        input.parse()
+        input.also { calls = 0 }
+            .parse()
+            .also { pairs -> println("Total Lines: " + pairs.size) }
             .filter { equation -> equation.solutionsThreeOps() }
+            .also { pairs -> println("Lines with solutions: " + pairs.size) }
+            .also { println("Checked candidates: " + calls) }
             .sumOf { equation -> equation.first }
 
     @Test

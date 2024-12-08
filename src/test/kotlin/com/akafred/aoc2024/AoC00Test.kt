@@ -11,8 +11,7 @@ class AoC00Test {
     private val example2Answer = -1
     private val puzzle2Answer = -1
 
-    private val exampleInput1 =
-            ""
+    private val exampleInput1 = """""".trimIndent()
 
     private val exampleInput2 = exampleInput1
 

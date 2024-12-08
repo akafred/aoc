@@ -24,7 +24,7 @@ fun Pos.move(vec: Vec) =
 fun Board.get(pos:Pos): Char =
     this[pos.first][pos.second]
 
-fun Board.startPos(): Pos = Pair(
+fun Board.startPos(): Pos = Pos(
     this.indexOfFirst { row -> row.any { ch -> ch !in setOf('#', '.') } },
     this.first { row -> row.any { ch -> ch !in setOf('#', '.') } }.indexOfFirst { ch -> ch !in setOf('#', '.') }
 )
@@ -76,6 +76,7 @@ class AoC06Test {
             }
             guardPos = candidateMove
         }
+        draw(board, emptyList(), emptyList(), visited.toList())
         return visited.size
     }
 
@@ -83,7 +84,8 @@ class AoC06Test {
     private fun solve2(input: String): Int {
         val board: Board = input.lines().map { line -> line.toList() }
         var visits: Visits = listOf()
-        var guardPos: Pos = board.startPos()
+        val startPos = board.startPos()
+        var guardPos: Pos = startPos
         var placedObstacles: List<Pos> = listOf()
         var guardDirection = if (board.get(guardPos) == '^') Vec(-1,0) else throw IllegalArgumentException("I only handle '^' guards!")
         while(guardPos.inside(board)) {
@@ -94,7 +96,7 @@ class AoC06Test {
                 candidateMove = guardPos.move(guardDirection)
             }
             val potentialObstacle = candidateMove
-            if (potentialObstacle.inside(board) && potentialObstacle != board.startPos()) {
+            if (potentialObstacle.inside(board) && potentialObstacle != startPos) {
                 var potentialGuardDirection = guardDirection.nextFrom(directions)
                 var potentialGuardPos = guardPos.move(potentialGuardDirection)
                 while(board.get(potentialGuardPos) == '#' || potentialGuardPos == potentialObstacle) {
@@ -125,6 +127,7 @@ class AoC06Test {
             }
             guardPos = candidateMove
         }
+        // draw(board, visits, emptyList(), placedObstacles)
         return placedObstacles.toSet().size
     }
 

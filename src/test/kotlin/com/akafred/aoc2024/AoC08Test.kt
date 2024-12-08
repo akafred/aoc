@@ -2,13 +2,7 @@ package com.akafred.aoc2024
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
-typealias Row = List<Char>
-typealias Board = List<Row>
-typealias Pos = Pair<Int,Int>
 typealias Vec = Pair<Int,Int>
 
 class AoC08Test {
@@ -16,8 +10,8 @@ class AoC08Test {
     private val inputFile = "input08.txt"
     private val example1Answer = 14
     private val puzzle1Answer = 249
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 34
+    private val puzzle2Answer = 905
 
     private val exampleInput1 = """
         ............
@@ -36,7 +30,10 @@ class AoC08Test {
 
     private val exampleInput2 = exampleInput1
 
-    private fun solve1(input: String): Int {
+    private fun solve1(input: String): Int =
+        solver(input) { ant1, ant2, height, width -> calculateSimpleAntinodes(ant1, ant2, height, width) }
+
+    private fun solver(input: String, antiNodeCalculator: (Pos, Pos, Int, Int) -> List<Pos>): Int {
         val board: Board = input.lines().map { line -> line.toList() }
         val height = board.size
         val width = board[0].size
@@ -48,7 +45,9 @@ class AoC08Test {
                     ants.forEachIndexed { i, ant1: Pos ->
                         ants.forEachIndexed { j, ant2: Pos ->
                             if (j > i) {
-                                val newAntis = calculateAntinodes(ant1, ant2, height, width)
+                                val newAntis = antiNodeCalculator(ant1, ant2, height, width)
+                                //println(ant1.toString() + "&" + ant2 + ":" + newAntis)
+                                //draw(board, newAntis)
                                 antis = antis + newAntis
                             }
                         }
@@ -58,7 +57,7 @@ class AoC08Test {
         return antinodes.toSet().size
     }
 
-    private fun calculateAntinodes(ant1: Pos, ant2: Pos, height: Int, width: Int): List<Pos> =
+    private fun calculateSimpleAntinodes(ant1: Pos, ant2: Pos, height: Int, width: Int): List<Pos> =
         if(ant1 == ant2)
             emptyList()
         else {
@@ -91,9 +90,40 @@ class AoC08Test {
         println()
     }
 
-    private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
-    }
+    private fun solve2(input: String): Int =
+        solver(input) { ant1, ant2, height, width -> calculateResonantAntiNodes(ant1, ant2, height, width) }
+
+    private fun calculateResonantAntiNodes(ant1: Pos, ant2: Pos, height: Int, width: Int): List<Pos> =
+        if(ant1 == ant2)
+            emptyList()
+        else {
+            val diffRow = ant2.first - ant1.first
+            val diffCol = ant2.second - ant1.second
+            // one dir
+            var antis = listOf<Pos>()
+            var i = 0
+            var inside = true
+            while(inside){
+                val row = ant1.first - diffRow * i
+                val col = ant1.second - diffCol * i
+                if (0 <= row && row < height && 0 <= col && col < width) {
+                    antis += Pos(row, col)
+                    i += 1
+                } else inside = false
+            }
+            i = 0
+            inside = true
+            while(inside){
+                val row = ant2.first + diffRow * i
+                val col = ant2.second + diffCol * i
+                if (0 <= row && row < height && 0 <= col && col < width) {
+                    antis += Pos(row, col)
+                    i += 1
+                } else inside = false
+            }
+            antis
+        }
+
 
     @Test
     fun `example 1`() {

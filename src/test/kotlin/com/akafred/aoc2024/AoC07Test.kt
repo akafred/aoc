@@ -42,7 +42,7 @@ class AoC07Test {
         input.also { calls = 0 }
             .parse()
             .also { pairs -> println("Total Lines: " + pairs.size) }
-            .filter { equation -> equation.solutions() }
+            .filter { equation -> equation.hasSolution() }
             .also { pairs -> println("Lines with solutions: " + pairs.size) }
             .also { println("Checked candidates: " + calls) }
             .sumOf { equation -> equation.first }
@@ -66,7 +66,7 @@ class AoC07Test {
         }
     }
 
-    private fun Equation.solutions(): Boolean {
+    private fun Equation.hasSolution(): Boolean {
         val (solution, numbers) = this
         for(i in 0 .. (1 shl (numbers.size - 1))) {
             val result = this.using(i.operators())
@@ -76,7 +76,7 @@ class AoC07Test {
     }
 
 
-    private fun Equation.solutionsThreeOps(): Boolean {
+    private fun Equation.hasSolutionWithThreeOperators(): Boolean {
         val (solution, numbers) = this
         var i = ZERO
         while (i < powerOfThree(numbers.size - 1)) {
@@ -111,7 +111,7 @@ class AoC07Test {
         input.also { calls = 0 }
             .parse()
             .also { pairs -> println("Total Lines: " + pairs.size) }
-            .filter { equation -> equation.solutionsThreeOps() }
+            .filter { equation -> equation.hasSolutionWithThreeOperators() }
             .also { pairs -> println("Lines with solutions: " + pairs.size) }
             .also { println("Checked candidates: " + calls) }
             .sumOf { equation -> equation.first }

@@ -1,5 +1,6 @@
 package com.akafred.aoc2024
 
+import com.akafred.aoc2021.aoc21_10.pop
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.SortedMap
@@ -9,28 +10,15 @@ class AoC09Test {
     private val inputFile = "input09.txt"
     private val example1Answer = 1928L
     private val puzzle1Answer = 6432869891895L
-    private val example2Answer = -1L
-    private val puzzle2Answer = -1L
+    private val example2Answer = 2858L
+    private val puzzle2Answer = 6467290479134L
 
     private val exampleInput1 = """2333133121414131402""".trimIndent()
 
     private val exampleInput2 = exampleInput1
 
     private fun solve1(input: String): Long {
-        val files: SortedMap<Int, FileSegment> = sortedMapOf<Int, FileSegment>()
-        val free: SortedMap<Int, FreeSpace> = sortedMapOf<Int, FreeSpace>()
-        var pos = 0
-        input.forEachIndexed { index, ch ->
-            val size = ch.digitToInt()
-            if (size > 0) {
-                if (index.even()) {
-                    files.put(pos, FileSegment(index / 2, size))
-                } else {
-                    free.put(pos, FreeSpace(size))
-                }
-                pos += size
-            }
-        }
+        val (files, free) = input.parse()
         //draw(files, free)
         while(free.keys.first() < files.keys.last()) {
             val (filePos, fileToFragment) = files.entries.last()
@@ -60,12 +48,35 @@ class AoC09Test {
                 //draw(files, free)
             }
         }
-        return files.entries.sumOf { (pos, fileSegment) ->
-            (pos..(pos + fileSegment.size -1)).sumOf { pos ->
+        return files.checksum()
+    }
+
+    private fun SortedMap<Int, FileSegment>.checksum(): Long {
+        return entries.sumOf { (pos, fileSegment) ->
+            (pos..(pos + fileSegment.size - 1)).sumOf { pos ->
                 //println(pos.toString() + " * " + fileSegment.fileId + " = " +pos * fileSegment.fileId )
                 pos * fileSegment.fileId.toLong()
             }
         }
+    }
+
+    private fun String.parse(): Pair<SortedMap<Int, FileSegment>, SortedMap<Int, FreeSpace>> {
+        val files: SortedMap<Int, FileSegment> = sortedMapOf<Int, FileSegment>()
+        val free: SortedMap<Int, FreeSpace> = sortedMapOf<Int, FreeSpace>()
+        var pos = 0
+        forEachIndexed { index, ch ->
+            val size = ch.digitToInt()
+            if (size > 0) {
+                if (index.even()) {
+                    files.put(pos, FileSegment(index / 2, size))
+                } else {
+                    free.put(pos, FreeSpace(size))
+                }
+                pos += size
+            }
+        }
+        val result = Pair(files, free)
+        return Pair(files, free)
     }
 
     private fun draw(files: SortedMap<Int, FileSegment>, free: SortedMap<Int, FreeSpace>) {
@@ -87,8 +98,32 @@ class AoC09Test {
 
     private fun Int.even(): Boolean = this % 2 == 0
 
-    private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+    private fun solve2(input: String): Long {
+        val (files, free) = input.parse()
+        // draw(files, free)
+        for ((filePos, fileSegment) in files.entries.reversed()) {
+            var moved = false
+            val freeSpaceCandidates = free.entries.filter { (freePos, _) -> freePos < filePos }.toMutableList()
+            while (!moved && freeSpaceCandidates.isNotEmpty()) {
+                val (freePos, freeSpace) = freeSpaceCandidates.removeFirst()
+                if (freeSpace.size == fileSegment.size) {
+                    val removedFile = files.remove(filePos)
+                    files.put(freePos, removedFile)
+                    val removedFree = free.remove(freePos)
+                    free.put(filePos, removedFree)
+                    moved = true
+                } else if (freeSpace.size > fileSegment.size) {
+                    val removedFile = files.remove(filePos)
+                    files.put(freePos, removedFile)
+                    free.remove(freePos)
+                    free.put(freePos + removedFile!!.size, FreeSpace(freeSpace.size - removedFile.size))
+                    free.put(filePos, FreeSpace(removedFile.size))
+                    moved = true
+                }
+            }
+            // draw(files, free)
+        }
+        return files.checksum()
     }
 
     @Test

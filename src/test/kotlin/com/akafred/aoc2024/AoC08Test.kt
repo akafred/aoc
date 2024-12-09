@@ -3,8 +3,6 @@ package com.akafred.aoc2024
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-typealias Vec = Pair<Int,Int>
-
 class AoC08Test {
 
     private val inputFile = "input08.txt"

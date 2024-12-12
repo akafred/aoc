@@ -7,7 +7,7 @@ class AoC12Test {
 
     private val inputFile = "input12.txt"
     private val example1Answer = 1930
-    private val puzzle1Answer = -1
+    private val puzzle1Answer = 1461806
     private val example2Answer = -1
     private val puzzle2Answer = -1
 
@@ -24,10 +24,43 @@ class AoC12Test {
         MMMISSJEEE
     """.trimIndent()
 
+    val directions: Directions = listOf<Direction>(Vec(-1,0), Vec(0,1), Vec(1,0), Vec(0,-1))
+
     private val exampleInput2 = exampleInput1
 
     private fun solve1(input: String): Int {
-        TODO("Not yet implemented")
+        val board: Board = input.lines().map { line -> line.toList() }
+        val unmapped: MutableSet<Pos> = board.mapIndexed { row, line -> line.mapIndexed { col, _ -> Pos(row, col) } }.flatten().toMutableSet()
+        var regions: List<Set<Pos>> = listOf()
+        while (!unmapped.isEmpty()) {
+            val start: Pos = unmapped.first()
+            val region: Set<Pos> = walkRegion(start, unmapped, board)
+            regions = regions + listOf(region)
+            println("Region: $region")
+        }
+        return regions.sumOf { region: Set<Pos> ->
+            region.fold(0) { acc: Int, pos: Pos ->
+                val fence: Int = directions.count { vec ->
+                    val nextPos = pos.move(vec)
+                    !nextPos.inside(board) || board.get(nextPos) != board.get(pos)
+                }
+                acc + fence
+            } * region.size
+        }
+    }
+
+    private fun walkRegion(pos: Pos, unmapped:MutableSet<Pos>, board: Board): Set<Pos> {
+        println("On $pos, still unmapped: ${unmapped.size}")
+        val regionChar = board.get(pos)
+        var region: Set<Pos> = setOf(pos)
+        unmapped.remove(pos)
+        directions.forEach { vec: Vec ->
+            val nextPos = pos.move(vec)
+            if(nextPos in unmapped && board.get(nextPos) == regionChar)  {
+                region = region + walkRegion(nextPos, unmapped, board)
+            }
+        }
+        return region
     }
 
     private fun solve2(input: String): Int {

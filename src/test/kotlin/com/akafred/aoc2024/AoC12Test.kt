@@ -9,7 +9,7 @@ class AoC12Test {
     private val inputFile = "input12.txt"
     private val example1Answer = 1930
     private val puzzle1Answer = 1461806
-    private val example2Answer = -1
+    private val example2Answer = 1206
     private val puzzle2Answer = -1
 
     private val exampleInput1 = """
@@ -25,9 +25,9 @@ class AoC12Test {
         MMMISSJEEE
     """.trimIndent()
 
-    val directions: Directions = listOf<Direction>(Vec(-1,0), Vec(0,1), Vec(1,0), Vec(0,-1))
+    private val exampleInput2 = exampleInput2
 
-    private val exampleInput2 = exampleInput1
+    val directions: Directions = listOf<Direction>(Vec(-1,0), Vec(0,1), Vec(1,0), Vec(0,-1))
 
     private fun Board.regions(): List<Set<Pos>> {
         var regions: List<Set<Pos>> = listOf()

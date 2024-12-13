@@ -2,6 +2,7 @@ package com.akafred.aoc2024
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.collections.plus
 
 class AoC12Test {
 
@@ -28,29 +29,35 @@ class AoC12Test {
 
     private val exampleInput2 = exampleInput1
 
-    private fun solve1(input: String): Int {
-        val board: Board = input.lines().map { line -> line.toList() }
-        val unmapped: MutableSet<Pos> = board.mapIndexed { row, line -> line.mapIndexed { col, _ -> Pos(row, col) } }.flatten().toMutableSet()
+    private fun Board.regions(): List<Set<Pos>> {
         var regions: List<Set<Pos>> = listOf()
+        val unmapped: MutableSet<Pos> = this.mapIndexed { row, line -> line.mapIndexed { col, _ -> Pos(row, col) } }.flatten().toMutableSet()
         while (!unmapped.isEmpty()) {
             val start: Pos = unmapped.first()
-            val region: Set<Pos> = walkRegion(start, unmapped, board)
+            val region: Set<Pos> = walkRegion(start, unmapped, this)
             regions = regions + listOf(region)
-            println("Region: $region")
+            //println("Region: $region")
         }
-        return regions.sumOf { region: Set<Pos> ->
-            region.fold(0) { acc: Int, pos: Pos ->
-                val fence: Int = directions.count { vec ->
-                    val nextPos = pos.move(vec)
-                    !nextPos.inside(board) || board.get(nextPos) != board.get(pos)
-                }
-                acc + fence
-            } * region.size
-        }
+        return regions
+    }
+
+
+    private fun solve1(input: String): Int {
+        val board = input.lines().map { line -> line.toList() }
+        return board
+            .regions()
+            .sumOf { region: Set<Pos> ->
+                region.fold(0) { acc: Int, pos: Pos ->
+                    val fence: Int = directions.count { vec ->
+                        val nextPos = pos.move(vec)
+                        !nextPos.inside(board) || board.get(nextPos) != board.get(pos)
+                    }
+                    acc + fence
+                } * region.size
+            }
     }
 
     private fun walkRegion(pos: Pos, unmapped:MutableSet<Pos>, board: Board): Set<Pos> {
-        println("On $pos, still unmapped: ${unmapped.size}")
         val regionChar = board.get(pos)
         var region: Set<Pos> = setOf(pos)
         unmapped.remove(pos)

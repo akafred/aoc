@@ -25,7 +25,7 @@ class AoC12Test {
         MMMISSJEEE
     """.trimIndent()
 
-    private val exampleInput2 = exampleInput2
+    private val exampleInput2 = exampleInput1
 
     val directions: Directions = listOf<Direction>(Vec(-1,0), Vec(0,1), Vec(1,0), Vec(0,-1))
 

@@ -12,7 +12,15 @@ typealias Visits = List<Visit>
 typealias Direction = Vec
 typealias Directions = List<Vec>
 
-val directions: Directions = listOf<Direction>(Vec(-1,0), Vec(0,1), Vec(1,0), Vec(0,-1))
+val directions: Directions = listOf(Direction(-1,0), Direction(0,1), Direction(1,0), Direction(0,-1))
+
+fun Direction.turnLeft(): Direction {
+    return directions[(directions.indexOf(this) + directions.size - 1) % directions.size]
+}
+
+fun Direction.turnRight(): Direction {
+    return directions[(directions.indexOf(this) + directions.size + 1) % directions.size]
+}
 
 fun Pos.inside(board: Board): Boolean =
     0 <= this.first && this.first < board.size

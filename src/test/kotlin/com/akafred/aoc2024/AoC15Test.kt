@@ -6,7 +6,11 @@ import org.junit.jupiter.api.Test
 private operator fun Pair<Int, Int>.plus(move: Pair<Int, Int>): Pair<Int, Int> =
     Pair(this.first + move.first, this.second + move.second)
 
-
+fun Board.find(c: Char): Pos {
+    val row = indexOfFirst { row -> row.contains(c) }
+    val col = this[row].indexOf(c)
+    return Pos(row, col)
+}
 
 
 class AoC15Test {
@@ -76,7 +80,7 @@ class AoC15Test {
                 }
                 .toList()
         //immutableBoard.forEach { println(it.joinToString("")) }
-        var robot: Pos = robotStartPos(immutableBoard)
+        var robot: Pos = immutableBoard.find('@')
         val board: Array<Array<Char>> = immutableBoard.mutable()
 
         board.set(robot, '.') // don't need to track robot
@@ -125,11 +129,6 @@ class AoC15Test {
 
     private fun Array<Array<Char>>.get(pos: Pos): Char = this[pos.first][pos.second]
 
-    private fun robotStartPos(immutableBoard: Board): Pos {
-        val robotRow = immutableBoard.indexOfFirst { row -> row.contains('@') }
-        val robotCol = immutableBoard[robotRow].indexOf('@')
-        return Pos(robotRow, robotCol)
-    }
 
     private fun solve2(input: String): Int {
         TODO("Not yet implemented")

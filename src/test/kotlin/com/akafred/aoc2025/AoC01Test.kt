@@ -26,33 +26,36 @@ class AoC01Test {
 
     private val exampleInput2 = exampleInput1
 
+    companion object {
+        const val DIAL_SIZE = 100
+        const val START_POSITION = 50
+    }
+
+    data class Rotation(val delta: Int, val clicks: Int)
+
+    private fun parseRotations(input: String) = input.lines().map { line ->
+        val delta = if (line[0] == 'L') -1 else 1
+        Rotation(delta, line.substring(1).toInt())
+    }
+
     private fun solve1(input: String): Int {
-        var position = 50
-        var count = 0
-        input.lines().forEach { line ->
-            val direction = line[0]
-            val distance = line.substring(1).toInt()
-            position = when (direction) {
-                'L' -> (position - distance).mod(100)
-                'R' -> (position + distance).mod(100)
-                else -> position
-            }
-            if (position == 0) count++
+        var dialPosition = START_POSITION
+        return parseRotations(input).count { rotation ->
+            dialPosition = (dialPosition + rotation.delta * rotation.clicks).mod(DIAL_SIZE)
+            dialPosition == 0
         }
-        return count
     }
 
     private fun solve2(input: String): Int {
-        var position = 50
-        var count = 0
-        input.lines().forEach { line ->
-            val delta = if (line[0] == 'L') -1 else 1
-            repeat(line.substring(1).toInt()) {
-                position = (position + delta).mod(100)
-                if (position == 0) count++
+        var dialPosition = START_POSITION
+        var timesAtZero = 0
+        for (rotation in parseRotations(input)) {
+            repeat(rotation.clicks) {
+                dialPosition = (dialPosition + rotation.delta).mod(DIAL_SIZE)
+                if (dialPosition == 0) timesAtZero++
             }
         }
-        return count
+        return timesAtZero
     }
 
     @Test

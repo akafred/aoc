@@ -6,17 +6,40 @@ import org.junit.jupiter.api.Test
 class AoC01Test {
 
     private val inputFile = "input01.txt"
-    private val example1Answer = -1
-    private val puzzle1Answer = -1
+    private val example1Answer = 3
+    private val puzzle1Answer = 984
     private val example2Answer = -1
     private val puzzle2Answer = -1
 
-    private val exampleInput1 = """""".trimIndent()
+    private val exampleInput1 = """
+        L68
+        L30
+        R48
+        L5
+        R60
+        L55
+        L1
+        L99
+        R14
+        L82
+    """.trimIndent()
 
     private val exampleInput2 = exampleInput1
 
     private fun solve1(input: String): Int {
-        TODO("Not yet implemented")
+        var position = 50
+        var count = 0
+        input.lines().forEach { line ->
+            val direction = line[0]
+            val distance = line.substring(1).toInt()
+            position = when (direction) {
+                'L' -> (position - distance).mod(100)
+                'R' -> (position + distance).mod(100)
+                else -> position
+            }
+            if (position == 0) count++
+        }
+        return count
     }
 
     private fun solve2(input: String): Int {

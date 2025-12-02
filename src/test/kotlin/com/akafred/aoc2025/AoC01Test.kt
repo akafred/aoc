@@ -8,8 +8,8 @@ class AoC01Test {
     private val inputFile = "input01.txt"
     private val example1Answer = 3
     private val puzzle1Answer = 984
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 6
+    private val puzzle2Answer = 5657
 
     private val exampleInput1 = """
         L68
@@ -43,7 +43,23 @@ class AoC01Test {
     }
 
     private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+        var position = 50
+        var count = 0
+        input.lines().forEach { line ->
+            val direction = line[0]
+            val distance = line.substring(1).toInt()
+            count += when (direction) {
+                'L' -> if (position == 0) distance / 100 else if (distance >= position) (distance - position) / 100 + 1 else 0
+                'R' -> (position + distance) / 100 - position / 100
+                else -> 0
+            }
+            position = when (direction) {
+                'L' -> (position - distance).mod(100)
+                'R' -> (position + distance).mod(100)
+                else -> position
+            }
+        }
+        return count
     }
 
     @Test

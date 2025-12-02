@@ -46,17 +46,10 @@ class AoC01Test {
         var position = 50
         var count = 0
         input.lines().forEach { line ->
-            val direction = line[0]
-            val distance = line.substring(1).toInt()
-            count += when (direction) {
-                'L' -> if (position == 0) distance / 100 else if (distance >= position) (distance - position) / 100 + 1 else 0
-                'R' -> (position + distance) / 100 - position / 100
-                else -> 0
-            }
-            position = when (direction) {
-                'L' -> (position - distance).mod(100)
-                'R' -> (position + distance).mod(100)
-                else -> position
+            val delta = if (line[0] == 'L') -1 else 1
+            repeat(line.substring(1).toInt()) {
+                position = (position + delta).mod(100)
+                if (position == 0) count++
             }
         }
         return count

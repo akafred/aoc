@@ -8,8 +8,8 @@ class AoC03Test {
     private val inputFile = "input03.txt"
     private val example1Answer = 357
     private val puzzle1Answer = 17435
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 3121910778619L
+    private val puzzle2Answer = 172886048065379L
 
     private val exampleInput1 = """
         987654321111111
@@ -31,8 +31,20 @@ class AoC03Test {
                 jolts
             }
 
-    private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+    private fun solve2(input: String): Long {
+        return input.lines()
+            .sumOf { bank ->
+                val batteries = bank.toList()
+                val batteriesToTurnOn = 12
+                val digits = mutableListOf<Char>()
+                var batteriesToConsider = batteries
+                1.rangeTo(12).map { digit ->
+                    val maxDigit = batteriesToConsider.dropLast(batteriesToTurnOn - digit).max()
+                    digits.add(maxDigit)
+                    batteriesToConsider = batteriesToConsider.drop(batteriesToConsider.indexOf(maxDigit) + 1)
+                }
+                digits.joinToString(separator = "").toLong()
+            }
     }
 
     @Test

@@ -7,7 +7,7 @@ class AoC03Test {
 
     private val inputFile = "input03.txt"
     private val example1Answer = 357
-    private val puzzle1Answer = -1
+    private val puzzle1Answer = 17435
     private val example2Answer = -1
     private val puzzle2Answer = -1
 
@@ -20,9 +20,16 @@ class AoC03Test {
 
     private val exampleInput2 = exampleInput1
 
-    private fun solve1(input: String): Int {
-        TODO("Not yet implemented")
-    }
+    private fun solve1(input: String): Int =
+        input.lines()
+            .sumOf { bank ->
+                val batteries = bank.toList()
+                val maxFirstDigit = batteries.dropLast(1).max()
+                val posFirstDigit = batteries.indexOf(maxFirstDigit)
+                val maxSecondDigit = batteries.drop(posFirstDigit + 1).max()
+                val jolts = maxFirstDigit.digitToInt() * 10 + maxSecondDigit.digitToInt()
+                jolts
+            }
 
     private fun solve2(input: String): Int {
         TODO("Not yet implemented")

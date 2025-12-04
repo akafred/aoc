@@ -9,8 +9,8 @@ class AoC04Test {
     private val inputFile = "input04.txt"
     private val example1Answer = 13
     private val puzzle1Answer = 1508
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 43
+    private val puzzle2Answer = 8538
 
     private val exampleInput1 = """
         ..@@.@@@@.
@@ -52,7 +52,36 @@ class AoC04Test {
     }
 
     private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+        val roll = '@'
+        var grid:List<String> = input.lines()
+        var removable = -1
+        var removed = 0
+        do {
+            removable= countRemovable(grid, roll)
+            if (removable > 0) {
+                grid = removeThem(grid, roll)
+                removed += removable
+            }
+        } while (removable > 0)
+        return removed
+    }
+
+    private fun removeThem(grid: List<String>, roll: Char): List<String> {
+        return grid.mapIndexed { r, row ->
+            row.mapIndexed { c, pos ->
+                if (pos == roll && countAdj(r, c, grid, roll) >= 4) roll else '.'
+            }.joinToString("")
+        }
+    }
+
+    private fun countRemovable(grid:List<String>, roll:Char):Int {
+        return grid.mapIndexed { r, row ->
+            row.mapIndexed { c, pos ->
+                if (pos == roll) {
+                    if (countAdj(r, c, grid, roll) < 4) 1 else 0
+                } else 0
+            }.sum()
+        }.sum()
     }
 
     @Test

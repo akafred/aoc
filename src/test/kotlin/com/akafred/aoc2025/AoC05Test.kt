@@ -2,14 +2,15 @@ package com.akafred.aoc2025
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.math.max
 
 class AoC05Test {
 
     private val inputFile = "input05.txt"
     private val example1Answer = 3
     private val puzzle1Answer = 601
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 14L
+    private val puzzle2Answer = 367899984917516L
 
     private val exampleInput1 = """
         3-5
@@ -40,8 +41,24 @@ class AoC05Test {
         return available.count{ ingredient -> freshRanges.any { ingredient in it }}
     }
 
-    private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+    private fun solve2(input: String): Long {
+        val (freshList, _) = input.split("\n\n")
+        val freshRanges = freshList.lines()
+            .map { line ->
+                line.split("-")
+                    .map { it.toLong() }
+                    .let { Pair(it.first(), it.last()) }
+            }
+        val sortedRanges = freshRanges.sortedBy { it.first }
+
+        return sortedRanges.drop(1)
+            .fold(listOf(sortedRanges.first())) { merged, range ->
+                if (merged.last().second < range.first) {
+                    merged + range
+                } else {
+                    merged.dropLast(1) + Pair(merged.last().first, max(range.second, merged.last().second))
+                }
+            }.sumOf { it.second - it.first + 1 }
     }
 
     @Test

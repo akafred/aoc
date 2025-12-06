@@ -9,8 +9,8 @@ class AoC06Test {
     private val inputFile = "input06.txt"
     private val example1Answer = BigInteger("4277556")
     private val puzzle1Answer = BigInteger("5552221122013")
-    private val example2Answer = BigInteger("-1")
-    private val puzzle2Answer = BigInteger("-1")
+    private val example2Answer = BigInteger("3263827")
+    private val puzzle2Answer = BigInteger("11371597126232")
 
     private val exampleInput1 = """
         123 328  51 64 
@@ -41,8 +41,32 @@ class AoC06Test {
         }.sumOf { it }
     }
 
-    private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+    private fun solve2(input: String): BigInteger {
+        val operators = input.lines()
+            .last()
+            .trim()
+            .split(Regex("\\s+"))
+        val lines = input.lines().dropLast(1)
+        val verticalLines = lines.foldIndexed(mutableMapOf<Int, String>())  { row, acc, line ->
+            line.forEachIndexed { col, c -> if (row == 0) acc[col] = c.toString() else acc[col] = acc[col] + c }
+            acc
+        }.map { it.value.trim() }
+
+        var currList = listOf<BigInteger>()
+        var numberLists = listOf<List<BigInteger>>()
+        for (text in verticalLines) {
+            if (text.isNotEmpty()) {
+                currList += BigInteger(text)
+            } else {
+                numberLists = numberLists.plusElement(currList)
+                currList = listOf()
+            }
+        }
+        numberLists = numberLists.plusElement(currList)
+
+        return numberLists.mapIndexed { i, list ->
+            list.reduce { v1, v2 -> if (operators[i] == "*") v1 * v2 else v1 + v2 }
+        }.sumOf { it }
     }
 
     @Test

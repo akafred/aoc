@@ -9,8 +9,8 @@ class AoC07Test {
     private val inputFile = "input07.txt"
     private val example1Answer = 21
     private val puzzle1Answer = 1594
-    private val example2Answer = 40
-    private val puzzle2Answer = -1
+    private val example2Answer = 40L
+    private val puzzle2Answer = 15650261281478L
 
     private val exampleInput1 = """
         .......S.......
@@ -50,18 +50,21 @@ class AoC07Test {
         return splits
     }
 
-    private fun solve2(input: String): Int {
-        var beam = input.lines().first().indexOf("S")
-        return countLines(beam, input.lines().drop(1))
-    }
-
-    private fun countLines(beam: Int, lines: List<String>): Int {
-        if (lines.isEmpty()) { print('|'); return 1 }
-        return if (lines.first()[beam] == '^') {
-            countLines(beam - 1, lines.drop(1)) + countLines(beam + 1, lines.drop(1))
-        } else {
-            countLines(beam, lines.drop(1))
+    private fun solve2(input: String): Long {
+        var beams = mapOf(input.lines().first().indexOf("S") to 1L)
+        input.lines().drop(1).forEach { line ->
+            val newBeams = mutableMapOf<Int, Long>()
+            beams.forEach { (beam, count) ->
+                if (line[beam] == '^') {
+                    newBeams[beam - 1] = (newBeams[beam - 1] ?: 0L) + count
+                    newBeams[beam + 1] = (newBeams[beam + 1] ?: 0L) + count
+                } else {
+                    newBeams[beam] = (newBeams[beam] ?: 0L) + count
+                }
+            }
+            beams = newBeams
         }
+        return beams.values.sum()
     }
 
     @Test

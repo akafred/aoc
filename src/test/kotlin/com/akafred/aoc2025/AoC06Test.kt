@@ -8,8 +8,8 @@ class AoC06Test {
     private val inputFile = "input06.txt"
     private val example1Answer = 4277556L
     private val puzzle1Answer = 5552221122013L
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 3263827L
+    private val puzzle2Answer = 11371597126232L
 
     private val exampleInput1 = """
         123 328  51 64 
@@ -35,8 +35,57 @@ class AoC06Test {
         }
     }
 
-    private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+    private fun solve2(input: String): Long {
+        val lines = input.lines()
+        val dataRows = lines.dropLast(1)
+        val operatorRow = lines.last()
+
+        val width = dataRows.maxOf { it.length }
+        val paddedRows = dataRows.map { it.padEnd(width) }
+        val paddedOpRow = operatorRow.padEnd(width)
+
+        // Find separator columns (all spaces in data rows)
+        val separatorCols = (0 until width).filter { col ->
+            paddedRows.all { row -> col >= row.length || row[col] == ' ' }
+        }.toSet()
+
+        // Group consecutive non-separator columns into problems
+        val problems = mutableListOf<List<Int>>()
+        var currentProblem = mutableListOf<Int>()
+
+        for (col in 0 until width) {
+            if (col in separatorCols) {
+                if (currentProblem.isNotEmpty()) {
+                    problems.add(currentProblem)
+                    currentProblem = mutableListOf()
+                }
+            } else {
+                currentProblem.add(col)
+            }
+        }
+        if (currentProblem.isNotEmpty()) {
+            problems.add(currentProblem)
+        }
+
+        return problems.sumOf { problemCols ->
+            // Find operator for this problem
+            val operator = problemCols.map { paddedOpRow.getOrElse(it) { ' ' } }
+                .first { it == '*' || it == '+' }
+
+            // Read columns right-to-left, each column becomes a number (top=MSD)
+            val numbers = problemCols.reversed().map { col ->
+                paddedRows.map { it[col] }
+                    .filter { it.isDigit() }
+                    .joinToString("")
+                    .toLongOrNull() ?: 0L
+            }.filter { it > 0 }
+
+            when (operator) {
+                '*' -> numbers.reduce { acc, n -> acc * n }
+                '+' -> numbers.sum()
+                else -> error("Unknown operator: $operator")
+            }
+        }
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.akafred.aoc2025
 
+import com.akafred.aoc2021.aoc21_05.LinesTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -8,7 +9,7 @@ class AoC07Test {
     private val inputFile = "input07.txt"
     private val example1Answer = 21
     private val puzzle1Answer = 1594
-    private val example2Answer = -1
+    private val example2Answer = 40
     private val puzzle2Answer = -1
 
     private val exampleInput1 = """
@@ -47,11 +48,20 @@ class AoC07Test {
         }
 
         return splits
-
     }
 
     private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+        var beam = input.lines().first().indexOf("S")
+        return countLines(beam, input.lines().drop(1))
+    }
+
+    private fun countLines(beam: Int, lines: List<String>): Int {
+        if (lines.isEmpty()) { print('|'); return 1 }
+        return if (lines.first()[beam] == '^') {
+            countLines(beam - 1, lines.drop(1)) + countLines(beam + 1, lines.drop(1))
+        } else {
+            countLines(beam, lines.drop(1))
+        }
     }
 
     @Test

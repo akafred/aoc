@@ -8,8 +8,8 @@ class AoC07Test {
     private val inputFile = "input07.txt"
     private val example1Answer = 21
     private val puzzle1Answer = 1594
-    private val example2Answer = -1
-    private val puzzle2Answer = -1
+    private val example2Answer = 40L
+    private val puzzle2Answer = 15650261281478L
 
     private val exampleInput1 = """
 .......S.......
@@ -67,8 +67,36 @@ class AoC07Test {
         return splits
     }
 
-    private fun solve2(input: String): Int {
-        TODO("Not yet implemented")
+    private fun solve2(input: String): Long {
+        val grid = input.lines()
+        val height = grid.size
+        val width = grid.maxOf { it.length }
+
+        val startCol = grid[0].indexOf('S')
+
+        // Track count of timelines at each column position
+        var timelines = mutableMapOf(startCol to 1L)
+
+        for (row in 1 until height) {
+            val line = grid[row]
+            val newTimelines = mutableMapOf<Int, Long>()
+
+            for ((col, count) in timelines) {
+                val cell = line.getOrElse(col) { '.' }
+                if (cell == '^') {
+                    // Each timeline splits into two
+                    if (col - 1 >= 0) newTimelines.merge(col - 1, count, Long::plus)
+                    if (col + 1 < width) newTimelines.merge(col + 1, count, Long::plus)
+                } else {
+                    // Timelines continue downward
+                    newTimelines.merge(col, count, Long::plus)
+                }
+            }
+
+            timelines = newTimelines
+        }
+
+        return timelines.values.sum()
     }
 
     @Test
